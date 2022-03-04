@@ -15,15 +15,15 @@ public class CheckButton: Button {
 
     public var isChecked: Bool {
         didSet {
-            backgroundColor = Theme.theme?.checkButtonBackgroundColor(where: isChecked)
-            layer.borderColor = Theme.theme?.checkButtonBorderColor(where: isChecked).cgColor
+            backgroundColor = Theme.theme.checkButtonBackgroundColor(where: isChecked)
+            layer.borderColor = Theme.theme.checkButtonBorderColor(where: isChecked).cgColor
         }
     }
 
     public required init?(coder: NSCoder) {
         self.isChecked = true
         super.init(coder: coder)
-        commonInit(style: .primary, title: "", isEnabled: true, action: nil)
+        commonInit(title: "", isEnabled: true, action: nil)
     }
 
     public init(isChecked: Bool = false) {
@@ -31,9 +31,9 @@ public class CheckButton: Button {
         super.init(style: .primary, title: "", isEnabled: true, action: nil)
         addTarget(self, action: #selector(didTouch), for: .touchUpInside)
         layer.borderWidth = 5
-        layer.cornerRadius = Theme.theme?.buttonCornerRadius ?? 0
-        backgroundColor = Theme.theme?.checkButtonBackgroundColor(where: isChecked)
-        layer.borderColor = Theme.theme?.checkButtonBorderColor(where: isChecked).cgColor
+        layer.cornerRadius = Theme.theme.buttonCornerRadius
+        backgroundColor = Theme.theme.checkButtonBackgroundColor(where: isChecked)
+        layer.borderColor = Theme.theme.checkButtonBorderColor(where: isChecked).cgColor
     }
 
     @objc

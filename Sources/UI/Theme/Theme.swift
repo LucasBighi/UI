@@ -8,39 +8,30 @@
 import UIKit
 import Stevia
 
-public extension UIFont {
-    static func custom(ofSize size: CGFloat, weight: Weight) -> UIFont {
-        return UIFont.systemFont(ofSize: size, weight: weight)
-    }
-}
-
 public protocol ThemeProtocol {
     // MARK: View Colors
     var primaryColor: UIColor { get }
     var secondaryColor: UIColor { get }
+    var terciaryColor: UIColor { get }
     // MARK: Text Colors
     var primaryTextColor: UIColor { get }
     var secondaryTextColor: UIColor { get }
-
+    
     // MARK: Fonts
+    var customFontName: String? { get }
     var headerFont: UIFont { get }
     var titleFont: UIFont { get }
     var subtitleFont: UIFont { get }
 
     // MARK: Common Button
     var buttonCornerRadius: CGFloat { get }
+    // MARK: Button
+    func buttonHeight(ofStyle style: Button.Style, where isEnabled: Bool) -> CGFloat
+    func buttonBackgroundColor(ofStyle style: Button.Style, where isEnabled: Bool) -> UIColor
+    func buttonBorderColor(ofStyle style: Button.Style, where isEnabled: Bool) -> UIColor
+    func buttonTitleColor(ofStyle style: Button.Style, where isEnabled: Bool) -> UIColor
+    func buttonFont(ofStyle style: Button.Style, where isEnabled: Bool) -> UIFont
     // MARK: Primary Button
-    func primaryButtonHeight(where isEnabled: Bool) -> CGFloat
-    func primaryButtonBackgroundColor(where isEnabled: Bool) -> UIColor
-    func primaryButtonBorderColor(where isEnabled: Bool) -> UIColor
-    func primaryButtonTitleColor(where isEnabled: Bool) -> UIColor
-    func primaryButtonFont(where isEnabled: Bool) -> UIFont
-    // MARK: Primary Button
-    func secondaryButtonHeight(where isEnabled: Bool) -> CGFloat
-    func secondaryButtonBackgroundColor(where isEnabled: Bool) -> UIColor
-    func secondaryButtonBorderColor(where isEnabled: Bool) -> UIColor
-    func secondaryButtonTitleColor(where isEnabled: Bool) -> UIColor
-    func secondaryButtonFont(where isEnabled: Bool) -> UIFont
     // MARK: Check Button
     func checkButtonBackgroundColor(where isChecked: Bool) -> UIColor
     func checkButtonBorderColor(where isChecked: Bool) -> UIColor
@@ -50,10 +41,15 @@ public protocol ThemeProtocol {
 }
 
 public class Theme {
-    static var theme: ThemeProtocol?
+    private static var settedTheme: ThemeProtocol?
+    
+    static var theme: ThemeProtocol {
+        guard let settedTheme = settedTheme else { fatalError("Theme not configured") }
+        return settedTheme
+    }
 
     public static func setTheme(_ theme: ThemeProtocol) {
-        self.theme = theme
+        self.settedTheme = theme
         setupNavigationBar()
     }
 }
@@ -65,6 +61,6 @@ extension Theme {
         UINavigationBar.appearance().backgroundColor = .clear
         UINavigationBar.appearance().isTranslucent = true
 
-        UIBarButtonItem.appearance().tintColor = theme?.primaryColor
+        UIBarButtonItem.appearance().tintColor = theme.primaryColor
     }
 }

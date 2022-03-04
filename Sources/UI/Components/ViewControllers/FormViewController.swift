@@ -19,11 +19,11 @@ open class FormViewController: BaseViewController {
         super.viewDidLoad()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
-                                               name: UIResponder.keyboardWillShowNotification,
+                                               name: NSNotification.Name.UIKeyboardWillShow,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide),
-                                               name: UIResponder.keyboardWillHideNotification,
+                                               name: NSNotification.Name.UIKeyboardWillHide,
                                                object: nil)
     }
 
@@ -100,14 +100,14 @@ open class FormViewController: BaseViewController {
     }
 
     deinit {
-        NotificationCenter.default.removeObserver(UIResponder.keyboardWillShowNotification)
-        NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
+        NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillShow)
+        NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillHide)
     }
 }
 
 extension FormViewController {
     @objc open func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardRect = (notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
+        guard let keyboardRect = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
           animateBottomViewWith(offset: -(keyboardRect.height + 20))
     }
 

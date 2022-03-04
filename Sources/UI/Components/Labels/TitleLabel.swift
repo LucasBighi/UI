@@ -22,8 +22,8 @@ public class TitleLabel: Label {
 
     private func commonInit() {
         func labelStyle(_ l: UILabel) {
-            l.font = Theme.theme?.titleFont
-            l.textColor = Theme.theme?.primaryTextColor
+            l.font = Theme.theme.titleFont
+            l.textColor = Theme.theme.primaryTextColor
         }
 
         style(labelStyle)

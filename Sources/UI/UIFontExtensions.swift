@@ -7,9 +7,9 @@
 
 import UIKit
 
-extension UIFont {
+public extension UIFont {
 
-    public enum MontSerratType: String {
+    enum MontSerratType: String {
         case black = "Black"
         case blackItalic = "BlackItalic"
         case bold = "Bold"
@@ -29,8 +29,9 @@ extension UIFont {
         case thinItalic = "ThinItalic"
     }
 
-    static func montSerrat(_ type: MontSerratType = .regular, ofSize size: CGFloat = UIFont.systemFontSize) -> UIFont {
-        return UIFont(name: "Montserrat-\(type.rawValue)", size: size)!
+    static func custom(_ type: MontSerratType = .regular, ofSize size: CGFloat = UIFont.systemFontSize) -> UIFont {
+        guard let customFontName = Theme.theme.customFontName else { return UIFont.systemFont(ofSize: size) }
+        return UIFont(name: "\(customFontName)-\(type.rawValue)", size: size)!
     }
 }
 

@@ -21,8 +21,8 @@ public class HeaderLabel: Label {
 
     private func commonInit() {
         func labelStyle(_ l: UILabel) {
-            l.font = Theme.theme?.headerFont
-            l.textColor = Theme.theme?.primaryTextColor
+            l.font = Theme.theme.headerFont
+            l.textColor = Theme.theme.primaryTextColor
         }
         
         style(labelStyle)

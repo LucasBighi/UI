@@ -22,8 +22,8 @@ public class SubtitleLabel: Label {
 
     private func commonInit() {
         func labelStyle(_ l: UILabel) {
-            l.font = Theme.theme?.subtitleFont
-            l.textColor = Theme.theme?.secondaryTextColor
+            l.font = Theme.theme.subtitleFont
+            l.textColor = Theme.theme.secondaryTextColor
         }
 
         style(labelStyle)

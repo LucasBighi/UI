@@ -28,8 +28,8 @@ public extension TextFieldValidatorDelegate {
 
     func viewForValidator(inTextField textField: TextField) -> UIView {
         let label = UILabel()
-        label.textColor = .red
-        label.font = .custom(ofSize: 13, weight: .light)
+        label.textColor = #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1)
+        label.font = .custom(.regular, ofSize: 12)
         label.textAlignment = .center
         return label
     }
@@ -154,7 +154,7 @@ public class TextField: UITextField {
 
 extension TextField: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
-        bottomLine.backgroundColor = Theme.theme?.primaryColor
+        bottomLine.backgroundColor = Theme.theme.primaryColor
         UIView.animate(withDuration: 0.3) {
             self.floatPlaceholder.topConstraint?.constant = -15
             self.floatPlaceholder.widthConstraint?.constant = 30
