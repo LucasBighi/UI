@@ -43,7 +43,7 @@ public struct UI {
         return settedTheme
     }
     
-    public static func configure() throws {
+    public static func configure() {
         if let appDelegate = UIApplication.shared.delegate as? AppTheme {
             self.settedTheme = appDelegate
             setupNavigationBar()
