@@ -8,7 +8,7 @@
 import UIKit
 import Stevia
 
-public protocol ThemeProtocol {
+public protocol AppTheme {
     // MARK: Fonts
     var headerFont: UIFont { get }
     var titleFont: UIFont { get }
@@ -35,16 +35,16 @@ public protocol ThemeProtocol {
 
 
 
-class UI {
-    private static var settedTheme: ThemeProtocol?
+public struct UI {
+    private static var settedTheme: AppTheme?
     
-    static var theme: ThemeProtocol {
+    static var theme: AppTheme {
         guard let settedTheme = settedTheme else { fatalError("Theme not configured") }
         return settedTheme
     }
     
-    static func configure() throws {
-        if let appDelegate = UIApplication.shared.delegate as? ThemeProtocol {
+    public static func configure() throws {
+        if let appDelegate = UIApplication.shared.delegate as? AppTheme {
             self.settedTheme = appDelegate
             setupNavigationBar()
         }
