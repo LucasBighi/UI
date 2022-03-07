@@ -48,7 +48,7 @@ public class Button: UIButton {
         titleLabel?.font = UI.theme.buttonFont(ofStyle: style, where: isEnabled)
         backgroundColor = UI.theme.buttonBackgroundColor(ofStyle: style, where: isEnabled)
         layer.borderWidth = 5
-        layer.borderColor = UI.theme.buttonBorderColor(ofStyle: style, where: isEnabled).cgColor
+        layer.borderColor = UI.theme.buttonBorderColor(ofStyle: style, where: isEnabled)?.cgColor
         layer.cornerRadius = UI.theme.buttonCornerRadius
     }
 
