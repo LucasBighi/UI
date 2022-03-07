@@ -6,32 +6,23 @@
 //
 
 import UIKit
+import Utils
 
 public extension UIFont {
-
-    enum MontSerratType: String {
-        case black = "Black"
-        case blackItalic = "BlackItalic"
-        case bold = "Bold"
-        case boldItalic = "BoldItalic"
-        case extraBold = "ExtraBold"
-        case extraLight = "ExtraLight"
-        case extraLightItalic = "ExtraLightItalic"
-        case italic = "Italic"
-        case light = "Light"
-        case lightItalic = "Light-Italic"
-        case medium = "Medium"
-        case mediumItalic = "MediumItalic"
-        case regular = "Regular"
-        case semiBold = "SemiBold"
-        case semiBoldItalic = "SemiBoldItalic"
-        case thin = "Thin"
-        case thinItalic = "ThinItalic"
+    enum FontType: String {
+        case bold
+        case regular
+        case light
     }
 
-    static func custom(_ type: MontSerratType = .regular, ofSize size: CGFloat = UIFont.systemFontSize) -> UIFont {
-        guard let customFontName = Theme.theme.customFontName else { return UIFont.systemFont(ofSize: size) }
-        return UIFont(name: "\(customFontName)-\(type.rawValue)", size: size)!
+    static func primary(_ type: FontType = .regular, ofSize size: CGFloat = UIFont.systemFontSize) -> UIFont {
+        let primaryFontName = AppInfo.infoForKey(.primaryFontName)
+        return UIFont(name: "\(primaryFontName)-\(type.rawValue.capitalized)", size: size)!
+    }
+    
+    static func secondary(_ type: FontType = .regular, ofSize size: CGFloat = UIFont.systemFontSize) -> UIFont {
+        let secondaryFontName = AppInfo.infoForKey(.secondaryFontName)
+        return UIFont(name: "\(secondaryFontName)-\(type.rawValue.capitalized)", size: size)!
     }
 }
 

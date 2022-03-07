@@ -24,7 +24,7 @@ public class Button: UIButton {
 
     open override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
-        size.height = Theme.theme.buttonHeight(ofStyle: style, where: isEnabled)
+        size.height = UI.theme.buttonHeight(ofStyle: style, where: isEnabled)
         return size
     }
 
@@ -45,11 +45,11 @@ public class Button: UIButton {
         self._action = action
         addTarget(self, action: #selector(pressed(sender:)), for: .touchUpInside)
         setTitle(title, for: .normal)
-        titleLabel?.font = Theme.theme.buttonFont(ofStyle: style, where: isEnabled)
-        backgroundColor = Theme.theme.buttonBackgroundColor(ofStyle: style, where: isEnabled)
+        titleLabel?.font = UI.theme.buttonFont(ofStyle: style, where: isEnabled)
+        backgroundColor = UI.theme.buttonBackgroundColor(ofStyle: style, where: isEnabled)
         layer.borderWidth = 5
-        layer.borderColor = Theme.theme.buttonBorderColor(ofStyle: style, where: isEnabled).cgColor
-        layer.cornerRadius = Theme.theme.buttonCornerRadius
+        layer.borderColor = UI.theme.buttonBorderColor(ofStyle: style, where: isEnabled).cgColor
+        layer.cornerRadius = UI.theme.buttonCornerRadius
     }
 
     @objc private func pressed(sender: UIButton) {

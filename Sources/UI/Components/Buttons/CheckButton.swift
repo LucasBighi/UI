@@ -15,8 +15,8 @@ public class CheckButton: Button {
 
     public var isChecked: Bool {
         didSet {
-            backgroundColor = Theme.theme.checkButtonBackgroundColor(where: isChecked)
-            layer.borderColor = Theme.theme.checkButtonBorderColor(where: isChecked).cgColor
+            backgroundColor = UI.theme.checkButtonBackgroundColor(where: isChecked)
+            layer.borderColor = UI.theme.checkButtonBorderColor(where: isChecked).cgColor
         }
     }
 
@@ -31,9 +31,9 @@ public class CheckButton: Button {
         super.init(style: .primary, title: "", isEnabled: true, action: nil)
         addTarget(self, action: #selector(didTouch), for: .touchUpInside)
         layer.borderWidth = 5
-        layer.cornerRadius = Theme.theme.buttonCornerRadius
-        backgroundColor = Theme.theme.checkButtonBackgroundColor(where: isChecked)
-        layer.borderColor = Theme.theme.checkButtonBorderColor(where: isChecked).cgColor
+        layer.cornerRadius = UI.theme.buttonCornerRadius
+        backgroundColor = UI.theme.checkButtonBackgroundColor(where: isChecked)
+        layer.borderColor = UI.theme.checkButtonBorderColor(where: isChecked).cgColor
     }
 
     @objc

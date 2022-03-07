@@ -9,9 +9,12 @@ import UIKit
 
 public class Label: UILabel {
 
-    public init(text: String?, textAlignment: NSTextAlignment = .center) {
+    public init(text: String?,
+                textColor: UIColor? = .primaryTextColor,
+                textAlignment: NSTextAlignment = .center) {
         super.init(frame: .zero)
         self.text = text
+        self.textColor = textColor
         self.numberOfLines = 0
         self.textAlignment = textAlignment
     }

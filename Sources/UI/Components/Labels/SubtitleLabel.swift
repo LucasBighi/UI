@@ -9,21 +9,23 @@ import UIKit
 
 public class SubtitleLabel: Label {
 
-    public override init(text: String?, textAlignment: NSTextAlignment = .center) {
-        super.init(text: text, textAlignment: textAlignment)
-        commonInit()
+    public override init(text: String?,
+                         textColor: UIColor? = .secondaryTextColor,
+                         textAlignment: NSTextAlignment = .center) {
+        super.init(text: text, textColor: textColor, textAlignment: textAlignment)
+        commonInit(textColor: textColor)
 
     }
 
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
-        commonInit()
+        commonInit(textColor: .secondaryTextColor)
     }
 
-    private func commonInit() {
+    private func commonInit(textColor: UIColor?) {
         func labelStyle(_ l: UILabel) {
-            l.font = Theme.theme.subtitleFont
-            l.textColor = Theme.theme.secondaryTextColor
+            l.font = UI.theme.subtitleFont
+            l.textColor = textColor
         }
 
         style(labelStyle)

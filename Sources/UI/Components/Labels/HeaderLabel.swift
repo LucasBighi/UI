@@ -9,20 +9,22 @@ import UIKit
 
 public class HeaderLabel: Label {
 
-    public override init(text: String?, textAlignment: NSTextAlignment = .center) {
-        super.init(text: text, textAlignment: textAlignment)
-        commonInit()
+    public override init(text: String?,
+                         textColor: UIColor? = .primaryTextColor,
+                         textAlignment: NSTextAlignment = .center) {
+        super.init(text: text, textColor: textColor, textAlignment: textAlignment)
+        commonInit(textColor: textColor)
     }
 
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
-        commonInit()
+        commonInit(textColor: textColor)
     }
 
-    private func commonInit() {
+    private func commonInit(textColor: UIColor?) {
         func labelStyle(_ l: UILabel) {
-            l.font = Theme.theme.headerFont
-            l.textColor = Theme.theme.primaryTextColor
+            l.font = UI.theme.headerFont
+            l.textColor = textColor
         }
         
         style(labelStyle)
