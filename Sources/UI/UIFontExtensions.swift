@@ -17,12 +17,12 @@ public extension UIFont {
 
     static func primary(_ type: FontType = .regular, ofSize size: CGFloat = UIFont.systemFontSize) -> UIFont {
         let primaryFontName = AppInfo.infoForKey(.primaryFontName)
-        return UIFont(name: "\(primaryFontName)-\(type.rawValue.capitalized)", size: size) ?? .systemFont(ofSize: 10)
+        return UIFont(name: "\(primaryFontName)-\(type.rawValue.capitalized)", size: size)!
     }
     
     static func secondary(_ type: FontType = .regular, ofSize size: CGFloat = UIFont.systemFontSize) -> UIFont {
         let secondaryFontName = AppInfo.infoForKey(.secondaryFontName)
-        return UIFont(name: "\(secondaryFontName)-\(type.rawValue.capitalized)", size: size) ?? .systemFont(ofSize: 10)
+        return UIFont(name: "\(secondaryFontName)-\(type.rawValue.capitalized)", size: size)!
     }
 }
 

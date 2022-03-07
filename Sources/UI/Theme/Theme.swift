@@ -18,17 +18,17 @@ public protocol AppTheme {
     var buttonCornerRadius: CGFloat { get }
     // MARK: Button
     func buttonHeight(ofStyle style: Button.Style, where isEnabled: Bool) -> CGFloat
-    func buttonBackgroundColor(ofStyle style: Button.Style, where isEnabled: Bool) -> UIColor
-    func buttonBorderColor(ofStyle style: Button.Style, where isEnabled: Bool) -> UIColor
-    func buttonTitleColor(ofStyle style: Button.Style, where isEnabled: Bool) -> UIColor
+    func buttonBackgroundColor(ofStyle style: Button.Style, where isEnabled: Bool) -> UIColor?
+    func buttonBorderColor(ofStyle style: Button.Style, where isEnabled: Bool) -> UIColor?
+    func buttonTitleColor(ofStyle style: Button.Style, where isEnabled: Bool) -> UIColor?
     func buttonFont(ofStyle style: Button.Style, where isEnabled: Bool) -> UIFont
     // MARK: Primary Button
     // MARK: Check Button
-    func checkButtonBackgroundColor(where isChecked: Bool) -> UIColor
-    func checkButtonBorderColor(where isChecked: Bool) -> UIColor
+    func checkButtonBackgroundColor(where isChecked: Bool) -> UIColor?
+    func checkButtonBorderColor(where isChecked: Bool) -> UIColor?
     
     // MARK: ViewController
-    var viewControllerBackgroundColor: UIColor { get }
+    var viewControllerBackgroundColor: UIColor? { get }
 }
 
 
