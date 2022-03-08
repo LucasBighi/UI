@@ -20,6 +20,14 @@ public class Button: UIButton {
         }
     }
     
+    public override var isEnabled: Bool {
+        didSet {
+            titleLabel?.font = UI.theme.buttonFont(ofStyle: style, where: isEnabled)
+            backgroundColor = UI.theme.buttonBackgroundColor(ofStyle: style, where: isEnabled)
+            layer.borderColor = UI.theme.buttonBorderColor(ofStyle: style, where: isEnabled)?.cgColor
+        }
+    }
+    
     var style: Style
 
     open override var intrinsicContentSize: CGSize {
