@@ -45,6 +45,6 @@ public class DateTextField: TextField {
     @objc
     private func changed() {
         text = datePicker.date.toString(withFormat: format)
-        addTarget(self, action: #selector(changed), for: .editingChanged)
+        sendActions(for: .editingChanged)
     }
 }
