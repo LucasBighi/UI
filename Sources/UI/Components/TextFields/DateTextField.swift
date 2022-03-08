@@ -6,10 +6,11 @@
 //
 
 import UIKit
+import Utils
 
 public class DateTextField: TextField {
     
-    private var format: Date.Format = .date
+    private var format: Format = .date
 
     lazy var datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
@@ -23,7 +24,7 @@ public class DateTextField: TextField {
 
     public var date = Date()
 
-    public init(date: Date = Date(), dateFormat: Date.Format = .date, placeholder: String? = nil) {
+    public init(date: Date = Date(), dateFormat: Format = .date, placeholder: String? = nil) {
         super.init(text: date.toString(withFormat: dateFormat), placeholder: placeholder)
         self.date = date
         self.format = dateFormat
@@ -44,23 +45,5 @@ public class DateTextField: TextField {
     @objc
     private func changed() {
         text = datePicker.date.toString(withFormat: format)
-    }
-}
-
-public extension Date {
-    func toString(withFormat format: Format) -> String {
-        let format = DateFormatter.dateFormat(fromTemplate: format.rawValue, options: 0, locale: .current)!
-        let formatter = DateFormatter()
-        formatter.dateFormat = format
-        return formatter.string(from: self)
-    }
-    
-    enum Format: String {
-        /// 10:10
-        case time = "HH:mm"
-        /// 10/10/2010
-        case date = "yyyyMMdd"
-        /// 10/10/2010 10:10
-        case dateAndTime = "yyyyMMdd HH:mm"
     }
 }
