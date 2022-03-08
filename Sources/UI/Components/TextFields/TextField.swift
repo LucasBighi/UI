@@ -153,7 +153,7 @@ public class TextField: UITextField {
 
 extension TextField: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
-        bottomLine.backgroundColor = .primaryColor
+        bottomLine.backgroundColor = validate() ? .primaryColor : #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1)
         UIView.animate(withDuration: 0.3) {
             self.floatPlaceholder.topConstraint?.constant = -15
             self.floatPlaceholder.widthConstraint?.constant = 30
@@ -163,7 +163,7 @@ extension TextField: UITextFieldDelegate {
     }
 
     public func textFieldDidEndEditing(_ textField: UITextField) {
-        bottomLine.backgroundColor = .gray
+        bottomLine.backgroundColor = validate() ? .gray : #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1)
         UIView.animate(withDuration: 0.3) {
             self.floatPlaceholder.topConstraint?.constant = 0
             self.floatPlaceholder.widthConstraint?.constant = self.bounds.width
@@ -175,6 +175,7 @@ extension TextField: UITextFieldDelegate {
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return false }
         textFieldDelegate?.textFieldEditingChanged(self)
+        validate()
         guard let mask = stringMask else { return true }
         let newString = (text as NSString).replacingCharacters(in: range, with: string)
         textField.text = format(withMask: mask, phone: newString)
