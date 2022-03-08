@@ -49,9 +49,9 @@ public class DateTextField: TextField {
 
 public extension Date {
     func toString(withFormat format: Format) -> String {
+        let format = DateFormatter.dateFormat(fromTemplate: format.rawValue, options: 0, locale: .current)!
         let formatter = DateFormatter()
-        formatter.locale = Locale.current
-        formatter.setLocalizedDateFormatFromTemplate(format.rawValue)
+        formatter.dateFormat = format
         return formatter.string(from: self)
     }
     
@@ -59,8 +59,8 @@ public extension Date {
         /// 10:10
         case time = "HH:mm"
         /// 10/10/2010
-        case date = "dd/MM/yyyy"
+        case date = "yyyyMMdd"
         /// 10/10/2010 10:10
-        case dateAndTime = "dd/MM/yyyy HH:mm"
+        case dateAndTime = "yyyyMMdd HH:mm"
     }
 }
