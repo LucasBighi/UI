@@ -46,10 +46,12 @@ public class TextField: UITextField {
     }()
 
     private var previousValue : String?
-    private var validatorView: UIView!
+    private var validatorView: UIView {
+        return validatorDelegate.viewForValidator(inTextField: self)
+    }
 
     public weak var textFieldDelegate: TextFieldDelegate?
-    public weak var validatorDelegate: TextFieldValidatorDelegate?
+    public var validatorDelegate: TextFieldValidatorDelegate!
 
     var stringMask: Mask?
 
@@ -84,7 +86,7 @@ public class TextField: UITextField {
             10,
             |-0-validatorView-0-| ~ 20
         )
-        delegate = self
+        
     }
 
     public override func textRect(forBounds bounds: CGRect) -> CGRect {
@@ -117,6 +119,7 @@ public class TextField: UITextField {
     }
 
     private func commonInit(text: String? = nil, placeholder: String? = nil, mask: Mask? = nil) {
+        delegate = self
         self.text = text
         self.placeholder = placeholder
         self.stringMask = mask
@@ -148,7 +151,7 @@ public class TextField: UITextField {
     }
 
     private func setupValidatorView() {
-        validatorView = validatorDelegate?.viewForValidator(inTextField: self)
+//        validatorView = validatorDelegate?.viewForValidator(inTextField: self)
         validatorView.isHidden = true
     }
     
