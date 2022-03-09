@@ -125,7 +125,7 @@ public class TextField: UITextField {
         self.placeholder = placeholder
         self.stringMask = mask
 
-        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification,
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextFieldTextDidChange,
                                                object: self,
                                                queue: nil) { [weak self] notification in
             guard let strongSelf = self else { return }
