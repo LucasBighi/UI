@@ -20,7 +20,6 @@ let package = Package(
     targets: [
         .target(
             name: "UI",
-//            resources: [.process("Resources", localization: .default)],
             dependencies: [
                 "Stevia",
                 "Utils"

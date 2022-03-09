@@ -14,8 +14,9 @@ public class PasswordTextField: TextField {
     public override var isSecureTextEntry: Bool {
         didSet {
             showPasswordButton?.setImage(isSecureTextEntry
-                                         ? UIImage(named: "eye-open")
-                                         : UIImage(named: "eye-open"), for: .normal)
+                                         ? UIImage(named: "eye-open", in: .module, compatibleWith: nil)
+                                         : UIImage(named: "eye-open", in: .module, compatibleWith: nil),
+                                         for: .normal)
         }
     }
 
@@ -45,7 +46,7 @@ public class PasswordTextField: TextField {
                                                     y: 0,
                                                     width: intrinsicContentSize.height,
                                                     height: intrinsicContentSize.height))
-        showPasswordButton?.setImage(UIImage(named: "eye-open", in: .module, compatibleWith: nil)!, for: .normal)
+        showPasswordButton?.setImage(UIImage(named: "eye-open", in: .module, compatibleWith: nil), for: .normal)
         showPasswordButton?.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
 
         rightView = showPasswordButton
