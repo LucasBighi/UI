@@ -182,7 +182,7 @@ extension TextField: UITextFieldDelegate {
         guard let text = textField.text else { return false }
 //        textFieldDelegate?.textFieldEditingChanged(self)
         guard let mask = stringMask else { return true }
-        let newString = (string as NSString).replacingCharacters(in: range, with: string)
+        let newString = (text as NSString).replacingCharacters(in: range, with: string)
         textField.text = format(withMask: mask, phone: newString)
         return false
     }
