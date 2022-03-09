@@ -18,7 +18,6 @@ public protocol TextFieldDelegate: NSObjectProtocol {
 public protocol TextFieldValidatorDelegate: NSObjectProtocol {
     func validator(inTextField textField: TextField) -> Bool
     func viewForValidator(inTextField textField: TextField) -> UIView
-    func textForValidator(inTextField textField: TextField) -> String?
 }
 
 public extension TextFieldValidatorDelegate {
@@ -27,10 +26,7 @@ public extension TextFieldValidatorDelegate {
     }
 
     func viewForValidator(inTextField textField: TextField) -> UIView {
-        let label = UILabel()
-        label.textColor = #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1)
-        label.font = .secondary(.regular, ofSize: 12)
-        return label
+        return UIView()
     }
 }
 
@@ -150,15 +146,7 @@ public class TextField: UITextField {
     }
 
     private func setupValidatorView() {
-        let validatorView = validatorDelegate?.viewForValidator(inTextField: self)
-        if let validatorLabel = validatorView as? UILabel {
-            validatorLabel.text = validatorDelegate?.textForValidator(inTextField: self)
-            self.validatorView = validatorLabel
-            self.validatorView.isHidden = true
-            return
-        }
-        self.validatorView = validatorView
-        
+        validatorView = validatorDelegate?.viewForValidator(inTextField: self)
         self.validatorView.isHidden = true
     }
 }
