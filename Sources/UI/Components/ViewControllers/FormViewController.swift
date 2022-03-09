@@ -31,6 +31,12 @@ open class FormViewController: BaseViewController {
         super.viewWillAppear(animated)
         setupUI()
     }
+    
+    open override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillShow)
+        NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillHide)
+    }
 
     private func setupUI() {
         setupTextFields()
@@ -97,11 +103,6 @@ open class FormViewController: BaseViewController {
         let validTextFields = textFields?.filter { $0.validate() }
         
         completion(invalidTextFields, validTextFields)
-    }
-
-    deinit {
-        NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillShow)
-        NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillHide)
     }
 }
 

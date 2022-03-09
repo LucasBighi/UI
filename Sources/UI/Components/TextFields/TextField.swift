@@ -142,22 +142,17 @@ public class TextField: UITextField {
     @discardableResult
     public func validate() -> Bool {
         validatorView.isHidden = validatorDelegate?.validator(inTextField: self) ?? false
-//        if !validate() {
-//            bottomLine.backgroundColor = #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1)
-//        } else {
-//            if isFirstResponder {
-//                bottomLine.backgroundColor = .primaryColor
-//            } else {
-//                bottomLine.backgroundColor = .gray
-//            }
-//        }
-        bottomLine.backgroundColor = !validate() ? #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1) : isFirstResponder ? .primaryColor : .gray
+//        bottomLine.backgroundColor = !validate() ? #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1) : isFirstResponder ? .primaryColor : .gray
         return validatorDelegate?.validator(inTextField: self) ?? false
     }
 
     private func setupValidatorView() {
         validatorView = validatorDelegate?.viewForValidator(inTextField: self)
         validatorView.isHidden = true
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(NSNotification.Name.UITextFieldTextDidChange)
     }
 }
 
