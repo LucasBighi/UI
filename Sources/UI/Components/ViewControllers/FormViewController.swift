@@ -139,6 +139,7 @@ extension FormViewController: TextFieldDelegate {
 
     public func textFieldDidBeginEditing(_ textField: TextField) {
         activeTextField = textField
+        submitButton?.isEnabled = textFields?.allSatisfy { $0.validate() } ?? false
     }
 
     public func textFieldDidEndEditing(_ textField: TextField) {

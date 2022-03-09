@@ -61,6 +61,12 @@ public class TextField: UITextField {
         super.init(coder: coder)
         commonInit()
     }
+    
+    public override var text: String? {
+        didSet {
+            textFieldDelegate?.textFieldEditingChanged(self)
+        }
+    }
 
     open override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
@@ -174,10 +180,9 @@ extension TextField: UITextFieldDelegate {
 
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return false }
-        textFieldDelegate?.textFieldEditingChanged(self)
-        validate()
+//        textFieldDelegate?.textFieldEditingChanged(self)
         guard let mask = stringMask else { return true }
-        let newString = (text as NSString).replacingCharacters(in: range, with: string)
+        let newString = (string as NSString).replacingCharacters(in: range, with: string)
         textField.text = format(withMask: mask, phone: newString)
         return false
     }
