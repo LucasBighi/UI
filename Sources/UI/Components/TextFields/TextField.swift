@@ -47,7 +47,7 @@ public class TextField: UITextField {
 
     private var previousValue : String?
     private var validatorView: UIView {
-        return validatorDelegate?.viewForValidator(inTextField: self)
+        return validatorDelegate?.viewForValidator(inTextField: self) ?? UIView()
     }
 
     public weak var textFieldDelegate: TextFieldDelegate?
@@ -151,7 +151,7 @@ public class TextField: UITextField {
     }
 
     private func setupValidatorView() {
-        validatorView = validatorDelegate?.viewForValidator(inTextField: self)
+//        validatorView = validatorDelegate?.viewForValidator(inTextField: self)
         validatorView.isHidden = true
     }
     
