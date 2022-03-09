@@ -155,6 +155,7 @@ public class TextField: UITextField {
     @discardableResult
     public func validate() -> Bool {
         let isValid = validatorDelegate?.validator(inTextField: self) ?? false
+        validatorDelegate?.viewForValidator(inTextField: self).isHidden = isValid
 //        validatorView.isHidden = isValid
         bottomLine.backgroundColor = !isValid ? #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1) : isEditing ? .primaryColor : .gray
         return isValid
