@@ -150,9 +150,14 @@ public class TextField: UITextField {
     }
 
     private func setupValidatorView() {
-        let validatorLabel = validatorDelegate?.viewForValidator(inTextField: self) as? UILabel
-        validatorLabel?.text = validatorDelegate?.textForValidator(inTextField: self)
-        validatorView = validatorLabel ?? UIView()
+        let validatorView = validatorDelegate?.viewForValidator(inTextField: self)
+        if let validatorLabel = validatorView as? UILabel {
+            validatorLabel.text = validatorDelegate?.textForValidator(inTextField: self)
+            validatorView = validatorLabel
+            return
+        }
+        self.validatorView = validatorView
+        
         validatorView.isHidden = true
     }
 }
