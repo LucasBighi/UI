@@ -15,6 +15,7 @@ public class Label: UILabel {
                 textAlignment: NSTextAlignment = .center) {
         super.init(frame: .zero)
         self.text = text
+        self.font = font
         self.textColor = textColor
         self.numberOfLines = 0
         self.textAlignment = textAlignment
