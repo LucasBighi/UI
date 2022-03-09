@@ -46,7 +46,9 @@ public class TextField: UITextField {
     }()
 
     private var previousValue : String?
-    private var validatorView: UIView!
+    private var validatorView: UIView {
+        return validatorDelegate?.viewForValidator(inTextField: self)
+    }
 
     public weak var textFieldDelegate: TextFieldDelegate?
     public weak var validatorDelegate: TextFieldValidatorDelegate?
@@ -71,7 +73,8 @@ public class TextField: UITextField {
     }
 
     public override func draw(_ rect: CGRect) {
-        setupValidatorView()
+//        setupValidatorView()
+        validatorView.isHidden = true
 //        setupFloatPlaceholder()
         sv(
             bottomLine,
