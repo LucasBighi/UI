@@ -153,12 +153,13 @@ public class TextField: UITextField {
         let validatorView = validatorDelegate?.viewForValidator(inTextField: self)
         if let validatorLabel = validatorView as? UILabel {
             validatorLabel.text = validatorDelegate?.textForValidator(inTextField: self)
-            validatorView = validatorLabel
+            self.validatorView = validatorLabel
+            self.validatorView.isHidden = true
             return
         }
         self.validatorView = validatorView
         
-        validatorView.isHidden = true
+        self.validatorView.isHidden = true
     }
 }
 
