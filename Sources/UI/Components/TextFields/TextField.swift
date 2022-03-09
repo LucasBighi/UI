@@ -125,17 +125,17 @@ public class TextField: UITextField {
         self.placeholder = placeholder
         self.stringMask = mask
 
-//        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification,
-//                                               object: self,
-//                                               queue: nil) { [weak self] notification in
-//            guard let strongSelf = self else { return }
-//            guard let object = notification.object as? TextField, object == strongSelf else { return }
-//
-//            if strongSelf.previousValue != strongSelf.text {
-//                strongSelf.textFieldDelegate?.textFieldEditingChanged(strongSelf)
-//            }
-//            strongSelf.previousValue = strongSelf.text
-//        }
+        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification,
+                                               object: self,
+                                               queue: nil) { [weak self] notification in
+            guard let strongSelf = self else { return }
+            guard let object = notification.object as? TextField, object == strongSelf else { return }
+
+            if strongSelf.previousValue != strongSelf.text {
+                strongSelf.textFieldDelegate?.textFieldEditingChanged(strongSelf)
+            }
+            strongSelf.previousValue = strongSelf.text
+        }
     }
 
     @objc
