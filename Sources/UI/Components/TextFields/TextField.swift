@@ -45,13 +45,11 @@ public class TextField: UITextField {
         return label
     }()
 
-    private var previousValue : String?
-    private var validatorView: UIView {
-        return validatorDelegate.viewForValidator(inTextField: self)
-    }
+    private var previousValue: String?
+    private var validatorView: UIView!
 
     public weak var textFieldDelegate: TextFieldDelegate?
-    public var validatorDelegate: TextFieldValidatorDelegate!
+    public weak var validatorDelegate: TextFieldValidatorDelegate?
 
     var stringMask: Mask?
 
@@ -73,20 +71,32 @@ public class TextField: UITextField {
     }
 
     public override func draw(_ rect: CGRect) {
-        setupValidatorView()
-//        setupFloatPlaceholder()
-        sv(
-            bottomLine,
-            validatorView
-        )
-
-        layout(
-            textRect(forBounds: bounds).maxY,
-            |-0-bottomLine-0-| ~ 1,
-            10,
-            |-0-validatorView-0-| ~ 20
-        )
-        
+//        setupValidatorView()
+////        setupFloatPlaceholder()
+//        sv(
+//            bottomLine,
+//            validatorView
+//        )
+//
+//        layout(
+//            textRect(forBounds: bounds).maxY,
+//            |-0-bottomLine-0-| ~ 1,
+//            10,
+//            |-0-validatorView-0-| ~ 20
+//        )
+        if let validatorView = validatorDelegate?.viewForValidator(inTextField: self) {
+            sv(
+                bottomLine,
+                validatorView
+            )
+    
+            layout(
+                textRect(forBounds: bounds).maxY,
+                |-0-bottomLine-0-| ~ 1,
+                10,
+                |-0-validatorView-0-| ~ 20
+            )
+        }
     }
 
     public override func textRect(forBounds bounds: CGRect) -> CGRect {
@@ -151,7 +161,7 @@ public class TextField: UITextField {
     }
 
     private func setupValidatorView() {
-//        validatorView = validatorDelegate?.viewForValidator(inTextField: self)
+        validatorView = validatorDelegate?.viewForValidator(inTextField: self)
         validatorView.isHidden = true
     }
     
