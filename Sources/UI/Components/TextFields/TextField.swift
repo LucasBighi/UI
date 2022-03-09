@@ -46,7 +46,7 @@ public class TextField: UITextField {
     }()
 
     private var previousValue: String?
-    private var validatorView: UIView!
+//    private var validatorView: UIView!
 
     public weak var textFieldDelegate: TextFieldDelegate?
     public weak var validatorDelegate: TextFieldValidatorDelegate?
@@ -155,14 +155,14 @@ public class TextField: UITextField {
     @discardableResult
     public func validate() -> Bool {
         let isValid = validatorDelegate?.validator(inTextField: self) ?? false
-        validatorView.isHidden = isValid
+//        validatorView.isHidden = isValid
         bottomLine.backgroundColor = !isValid ? #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1) : isEditing ? .primaryColor : .gray
         return isValid
     }
 
     private func setupValidatorView() {
-        validatorView = validatorDelegate?.viewForValidator(inTextField: self)
-        validatorView.isHidden = true
+//        validatorView = validatorDelegate?.viewForValidator(inTextField: self)
+//        validatorView.isHidden = true
     }
     
     deinit {
