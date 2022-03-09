@@ -45,7 +45,7 @@ public class PasswordTextField: TextField {
                                                     y: 0,
                                                     width: intrinsicContentSize.height,
                                                     height: intrinsicContentSize.height))
-        showPasswordButton?.setImage(UIImage(named: "eye-open"), for: .normal)
+        showPasswordButton?.setImage(UIImage(named: "eye-open", in: .module, compatibleWith: nil)!, for: .normal)
         showPasswordButton?.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
 
         rightView = showPasswordButton
