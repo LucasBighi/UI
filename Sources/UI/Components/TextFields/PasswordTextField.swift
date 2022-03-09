@@ -13,7 +13,9 @@ public class PasswordTextField: TextField {
 
     public override var isSecureTextEntry: Bool {
         didSet {
-            showPasswordButton?.backgroundColor = isSecureTextEntry ? .blue : .red
+            showPasswordButton?.setImage(isSecureTextEntry
+                                         ? UIImage(named: "eye-open")
+                                         : UIImage(named: "eye-open"), for: .normal)
         }
     }
 
