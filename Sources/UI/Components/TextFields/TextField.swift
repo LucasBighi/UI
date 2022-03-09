@@ -46,9 +46,9 @@ public class TextField: UITextField {
     }()
 
     private var previousValue : String?
-    private var validatorView: UIView? {
-        return validatorDelegate?.viewForValidator(inTextField: self)
-    }
+//    private var validatorView: UIView? {
+//        return validatorDelegate?.viewForValidator(inTextField: self)
+//    }
 
     public weak var textFieldDelegate: TextFieldDelegate?
     public weak var validatorDelegate: TextFieldValidatorDelegate?
@@ -74,18 +74,19 @@ public class TextField: UITextField {
 
     public override func draw(_ rect: CGRect) {
 //        setupValidatorView()
-        validatorView?.isHidden = true
+//        validatorView?.isHidden = true
+        validatorDelegate?.viewForValidator(inTextField: self).isHidden = true
 //        setupFloatPlaceholder()
         sv(
             bottomLine,
-            validatorView!
+            (validatorDelegate?.viewForValidator(inTextField: self))!
         )
 
         layout(
             textRect(forBounds: bounds).maxY,
             |-0-bottomLine-0-| ~ 1,
             10,
-            |-0-validatorView!-0-| ~ 20
+            |-0-(validatorDelegate?.viewForValidator(inTextField: self))!-0-| ~ 20
         )
         delegate = self
     }
@@ -145,7 +146,7 @@ public class TextField: UITextField {
     @discardableResult
     public func validate() -> Bool {
         let isValid = validatorDelegate?.validator(inTextField: self) ?? false
-        validatorView?.isHidden = isValid
+        validatorDelegate?.viewForValidator(inTextField: self).isHidden = isValid
         bottomLine.backgroundColor = !isValid ? #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1) : isEditing ? .primaryColor : .gray
         return isValid
     }
