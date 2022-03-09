@@ -77,17 +77,17 @@ public class TextField: UITextField {
 //        validatorView?.isHidden = true
         validatorDelegate?.viewForValidator(inTextField: self).isHidden = true
 //        setupFloatPlaceholder()
-        sv(
-            bottomLine,
-            (validatorDelegate?.viewForValidator(inTextField: self))!
-        )
-
-        layout(
-            textRect(forBounds: bounds).maxY,
-            |-0-bottomLine-0-| ~ 1,
-            10,
-            |-0-(validatorDelegate?.viewForValidator(inTextField: self))!-0-| ~ 20
-        )
+//        sv(
+//            bottomLine,
+//            (validatorDelegate?.viewForValidator(inTextField: self))!
+//        )
+//
+//        layout(
+//            textRect(forBounds: bounds).maxY,
+//            |-0-bottomLine-0-| ~ 1,
+//            10,
+//            |-0-(validatorDelegate?.viewForValidator(inTextField: self))!-0-| ~ 20
+//        )
         delegate = self
     }
 
@@ -136,6 +136,16 @@ public class TextField: UITextField {
             }
             strongSelf.previousValue = strongSelf.text
         }
+        
+        addSubview(bottomLine)
+        addSubview(validatorDelegate!.viewForValidator(inTextField: self))
+
+        layout(
+            textRect(forBounds: bounds).maxY,
+            |-0-bottomLine-0-| ~ 1,
+            10,
+            |-0-(validatorDelegate?.viewForValidator(inTextField: self))!-0-| ~ 20
+        )
     }
 
     @objc
