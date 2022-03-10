@@ -153,6 +153,7 @@ public class TextField: UITextField {
         }
         
         validatorContentView.sv(validatorDelegate.viewForValidator(inTextField: self))
+        validatorDelegate.viewForValidator(inTextField: self).fillContainer()
     }
     
     deinit {
