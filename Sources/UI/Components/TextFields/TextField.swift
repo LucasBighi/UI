@@ -75,14 +75,7 @@ public class TextField: UITextField {
         addSubview(bottomLine)
         
         if validatorDelegate?.viewForValidator(inTextField: self) != nil {
-            let contentValidator = UIView(frame: CGRect(x: 0,
-                                                        y: bottomLine.frame.maxY + 10,
-                                                        width: rect.width,
-                                                        height: 200))
-            
-            contentValidator.backgroundColor = .green
-            contentValidator.addSubview((validatorDelegate?.viewForValidator(inTextField: self))!)
-            addSubview(contentValidator)
+            addSubview((validatorDelegate?.viewForValidator(inTextField: self))!)
         }
         
 //        if validatorDelegate?.viewForValidator(inTextField: self) != nil {
