@@ -71,32 +71,33 @@ public class TextField: UITextField {
     }
 
     public override func draw(_ rect: CGRect) {
-//        setupValidatorView()
-////        setupFloatPlaceholder()
-//        sv(
-//            bottomLine,
-//            validatorView
-//        )
-//
-//        layout(
-//            textRect(forBounds: bounds).maxY,
-//            |-0-bottomLine-0-| ~ 1,
-//            10,
-//            |-0-validatorView-0-| ~ 20
-//        )
+        bottomLine.frame = CGRect(x: 0, y: 0, width: rect.width, height: 1)
+        addSubview(bottomLine)
+        
         if validatorDelegate?.viewForValidator(inTextField: self) != nil {
-            sv(
-                bottomLine,
-                (validatorDelegate?.viewForValidator(inTextField: self))!
-            )
-    
-            layout(
-                textRect(forBounds: bounds).maxY,
-                |-0-bottomLine-0-| ~ 1,
-                10,
-                |-0-(validatorDelegate?.viewForValidator(inTextField: self))!-0-| ~ 20
-            )
+            let contentValidator = UIView(frame: CGRect(x: 0,
+                                                        y: bottomLine.frame.maxY + 10,
+                                                        width: rect.width,
+                                                        height: 200))
+            
+            contentValidator.backgroundColor = .green
+            contentValidator.addSubview((validatorDelegate?.viewForValidator(inTextField: self))!)
+            addSubview(contentValidator)
         }
+        
+//        if validatorDelegate?.viewForValidator(inTextField: self) != nil {
+//            sv(
+//                bottomLine,
+//                (validatorDelegate?.viewForValidator(inTextField: self))!
+//            )
+//
+//            layout(
+//                textRect(forBounds: bounds).maxY,
+//                |-0-bottomLine-0-| ~ 1,
+//                10,
+//                |-0-(validatorDelegate?.viewForValidator(inTextField: self))!-0-| ~ 20
+//            )
+//        }
     }
 
     public override func textRect(forBounds bounds: CGRect) -> CGRect {
