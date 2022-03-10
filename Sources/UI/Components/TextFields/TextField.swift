@@ -144,7 +144,7 @@ public class TextField: UITextField {
         validatorDelegate?.viewForValidator(inTextField: self).isHidden = isValid
 //        validatorView.isHidden = isValid
         
-        if validatorDelegate?.viewForValidator(inTextField: self).superview == self {
+        if !validatorDelegate?.viewForValidator(inTextField: self).superview == self {
             sv((validatorDelegate?.viewForValidator(inTextField: self))!)
 
             layout(
