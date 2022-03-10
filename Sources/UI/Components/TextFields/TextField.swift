@@ -46,7 +46,7 @@ public class TextField: UITextField {
     }()
 
     private var previousValue: String?
-//    private var validatorView: UIView?
+    private var validatorContentView = UIView()
 
     public weak var textFieldDelegate: TextFieldDelegate?
     public var validatorDelegate: TextFieldValidatorDelegate!
@@ -71,11 +71,16 @@ public class TextField: UITextField {
     }
 
     public override func draw(_ rect: CGRect) {
-        sv(bottomLine)
+        sv(
+            bottomLine,
+            validatorContentView
+        )
 
         layout(
             textRect(forBounds: bounds).maxY,
-            |-0-bottomLine-0-| ~ 1
+            |-0-bottomLine-0-| ~ 1,
+            10,
+            |-0-validatorContentView-0-|
         )
     }
 
@@ -141,17 +146,13 @@ public class TextField: UITextField {
     }
 
     private func setupValidatorView(isValid: Bool) {
-        validatorDelegate?.viewForValidator(inTextField: self).isHidden = isValid
-//        validatorView.isHidden = isValid
+        validatorContentView.isHidden = isValid
         
-        if validatorDelegate?.viewForValidator(inTextField: self).superview != self {
-            sv((validatorDelegate?.viewForValidator(inTextField: self))!)
-
-            layout(
-                bottomLine.Bottom + 10,
-                |-0-(validatorDelegate?.viewForValidator(inTextField: self))!-0-|
-            )
+        if !validatorContentView.subviews.isEmpty {
+            validatorContentView.subviews.forEach { $0.removeFromSuperview() }
         }
+        
+        validatorContentView.sv(validatorDelegate.viewForValidator(inTextField: self))
     }
     
     deinit {
