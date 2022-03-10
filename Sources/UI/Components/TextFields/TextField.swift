@@ -46,10 +46,10 @@ public class TextField: UITextField {
     }()
 
     private var previousValue: String?
-    private var validatorView: UIView!
+//    private var validatorView: UIView?
 
     public weak var textFieldDelegate: TextFieldDelegate?
-    public weak var validatorDelegate: TextFieldValidatorDelegate?
+    public var validatorDelegate: TextFieldValidatorDelegate!
 
     var stringMask: Mask?
 
@@ -141,15 +141,15 @@ public class TextField: UITextField {
     }
 
     private func setupValidatorView(isValid: Bool) {
-        validatorView = validatorDelegate?.viewForValidator(inTextField: self)
-        validatorView.isHidden = isValid
+        validatorDelegate?.viewForValidator(inTextField: self).isHidden = isValid
+//        validatorView.isHidden = isValid
         
-        if !subviews.contains(validatorView) {
-            sv(validatorView)
+        if validatorDelegate?.viewForValidator(inTextField: self).superview == self {
+            sv((validatorDelegate?.viewForValidator(inTextField: self))!)
 
             layout(
                 bottomLine.Bottom + 10,
-                |-0-validatorView-0-|
+                |-0-(validatorDelegate?.viewForValidator(inTextField: self))!-0-|
             )
         }
     }
