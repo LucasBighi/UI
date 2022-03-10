@@ -84,17 +84,17 @@ public class TextField: UITextField {
 //            10,
 //            |-0-validatorView-0-| ~ 20
 //        )
-        if let validatorView = validatorDelegate?.viewForValidator(inTextField: self) {
+        if validatorDelegate?.viewForValidator(inTextField: self) != nil {
             sv(
                 bottomLine,
-                validatorView
+                (validatorDelegate?.viewForValidator(inTextField: self))!
             )
     
             layout(
                 textRect(forBounds: bounds).maxY,
                 |-0-bottomLine-0-| ~ 1,
                 10,
-                |-0-validatorView-0-| ~ 20
+                |-0-(validatorDelegate?.viewForValidator(inTextField: self))!-0-| ~ 20
             )
         }
     }
