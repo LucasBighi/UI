@@ -80,7 +80,8 @@ public class TextField: UITextField {
             textRect(forBounds: bounds).maxY,
             |-0-bottomLine-0-| ~ 1,
             10,
-            |-0-validatorContentView-0-|
+            |-0-validatorContentView-0-|,
+            0
         )
     }
 
