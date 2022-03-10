@@ -46,7 +46,7 @@ public class TextField: UITextField {
     }()
 
     private var previousValue: String?
-//    private var validatorView: UIView!
+    private var validatorView: UIView!
 
     public weak var textFieldDelegate: TextFieldDelegate?
     public weak var validatorDelegate: TextFieldValidatorDelegate?
@@ -71,26 +71,12 @@ public class TextField: UITextField {
     }
 
     public override func draw(_ rect: CGRect) {
-        bottomLine.frame = CGRect(x: 0, y: 0, width: rect.width, height: 1)
-        addSubview(bottomLine)
-        
-        if validatorDelegate?.viewForValidator(inTextField: self) != nil {
-            addSubview((validatorDelegate?.viewForValidator(inTextField: self))!)
-        }
-        
-//        if validatorDelegate?.viewForValidator(inTextField: self) != nil {
-//            sv(
-//                bottomLine,
-//                (validatorDelegate?.viewForValidator(inTextField: self))!
-//            )
-//
-//            layout(
-//                textRect(forBounds: bounds).maxY,
-//                |-0-bottomLine-0-| ~ 1,
-//                10,
-//                |-0-(validatorDelegate?.viewForValidator(inTextField: self))!-0-| ~ 20
-//            )
-//        }
+        sv(bottomLine)
+
+        layout(
+            textRect(forBounds: bounds).maxY,
+            |-0-bottomLine-0-| ~ 1
+        )
     }
 
     public override func textRect(forBounds bounds: CGRect) -> CGRect {
@@ -149,15 +135,23 @@ public class TextField: UITextField {
     @discardableResult
     public func validate() -> Bool {
         let isValid = validatorDelegate?.validator(inTextField: self) ?? false
-        validatorDelegate?.viewForValidator(inTextField: self).isHidden = isValid
-//        validatorView.isHidden = isValid
+        setupValidatorView(isValid: isValid)
         bottomLine.backgroundColor = !isValid ? #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1) : isEditing ? .primaryColor : .gray
         return isValid
     }
 
-    private func setupValidatorView() {
-//        validatorView = validatorDelegate?.viewForValidator(inTextField: self)
-//        validatorView.isHidden = true
+    private func setupValidatorView(isValid: Bool) {
+        validatorView = validatorDelegate?.viewForValidator(inTextField: self)
+        validatorView.isHidden = isValid
+        
+        if !subviews.contains(validatorView) {
+            sv(validatorView)
+
+            layout(
+                bottomLine.Bottom + 10,
+                |-0-validatorView-0-|
+            )
+        }
     }
     
     deinit {
