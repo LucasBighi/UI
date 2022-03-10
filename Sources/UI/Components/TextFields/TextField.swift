@@ -145,6 +145,10 @@ public class TextField: UITextField {
         bottomLine.backgroundColor = !isValid ? #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1) : isEditing ? .primaryColor : .gray
         return isValid
     }
+    
+    public func getText() -> String {
+        return (text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 
     private func setupValidatorView(isValid: Bool) {
         validatorContentView.isHidden = isValid
