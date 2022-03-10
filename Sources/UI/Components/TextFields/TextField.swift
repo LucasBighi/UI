@@ -49,7 +49,7 @@ public class TextField: UITextField {
     private var validatorContentView = UIView()
 
     public weak var textFieldDelegate: TextFieldDelegate?
-    public var validatorDelegate: TextFieldValidatorDelegate!
+    public weak var validatorDelegate: TextFieldValidatorDelegate?
 
     var stringMask: Mask?
 
@@ -153,8 +153,14 @@ public class TextField: UITextField {
             validatorContentView.subviews.forEach { $0.removeFromSuperview() }
         }
         
-        validatorContentView.sv(validatorDelegate.viewForValidator(inTextField: self))
-        validatorDelegate.viewForValidator(inTextField: self).fillContainer()
+        if let validatorView = validatorDelegate?.viewForValidator(inTextField: self) {
+            validatorContentView.sv(validatorView)
+            validatorContentView.layout(
+                0,
+                |-0-validatorView-0-|,
+                0
+            )
+        }
     }
     
     deinit {
