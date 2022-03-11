@@ -12,7 +12,7 @@ public class CheckButton: Button {
     var changeValueAction: ((_ isChecked: Bool) -> Void)?
 
     open override var intrinsicContentSize: CGSize {
-        return CGSize(width: 24, height: 24)
+        return CGSize(width: 18, height: 18)
     }
 
     public var isChecked: Bool {
@@ -36,8 +36,8 @@ public class CheckButton: Button {
         self.changeValueAction = changeValueAction
         super.init(style: .primary, title: "", isEnabled: true, action: nil)
         addTarget(self, action: #selector(didTouch), for: .touchUpInside)
-        layer.borderWidth = 5
-        layer.cornerRadius = UI.theme.buttonCornerRadius
+        layer.borderWidth = 2
+        layer.cornerRadius = 10
         backgroundColor = UI.theme.checkButtonBackgroundColor(where: isChecked)
         layer.borderColor = UI.theme.checkButtonBorderColor(where: isChecked)?.cgColor
         setBackgroundImage(isChecked ? UIImage(named: "checkbox", in: .module, compatibleWith: nil) : nil,
