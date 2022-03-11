@@ -37,7 +37,7 @@ public class CheckButton: Button {
         super.init(style: .primary, title: "", isEnabled: true, action: nil)
         addTarget(self, action: #selector(didTouch), for: .touchUpInside)
         layer.borderWidth = 2
-        layer.cornerRadius = 10
+        layer.cornerRadius = 5
         backgroundColor = UI.theme.checkButtonBackgroundColor(where: isChecked)
         layer.borderColor = UI.theme.checkButtonBorderColor(where: isChecked)?.cgColor
         setBackgroundImage(isChecked ? UIImage(named: "checkbox", in: .module, compatibleWith: nil) : nil,
