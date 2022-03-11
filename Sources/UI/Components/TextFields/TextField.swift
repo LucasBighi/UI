@@ -144,7 +144,9 @@ public class TextField: UITextField {
     }
     
     public func showValidationMessage(_ message: String) {
-        
+        if let validatorLabel = validatorView as? UILabel {
+            validatorLabel.text = message
+        }
     }
 
     private func setupValidatorView(isValid: Bool) {
