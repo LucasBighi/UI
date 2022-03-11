@@ -18,7 +18,7 @@ public class CheckButton: Button {
     public var isChecked: Bool {
         didSet {
             layer.borderColor = UI.theme.checkButtonBorderColor(where: isChecked)?.cgColor
-            setBackgroundImage(isChecked ? UIImage(inModuleNamed: "checkbox") : nil, for: .normal)
+            setBackgroundImage(isChecked ? UIImage(inModuleNamed: "check-box") : nil, for: .normal)
             changeValueAction?(isChecked)
         }
     }
