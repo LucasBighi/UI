@@ -61,6 +61,7 @@ public class TextField: UITextField {
     
     public override var text: String? {
         didSet {
+            validate()
             textFieldDelegate?.textFieldEditingChanged(self)
         }
     }
@@ -110,18 +111,18 @@ public class TextField: UITextField {
         self.placeholder = placeholder
         self.stringMask = mask
 
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextFieldTextDidChange,
-                                               object: self,
-                                               queue: nil) { [weak self] notification in
-            guard let strongSelf = self else { return }
-            guard let object = notification.object as? TextField, object == strongSelf else { return }
-
-            if strongSelf.previousValue != strongSelf.text {
-                strongSelf.textFieldDelegate?.textFieldEditingChanged(strongSelf)
-                strongSelf.validate()
-            }
-            strongSelf.previousValue = strongSelf.text
-        }
+//        NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextFieldTextDidChange,
+//                                               object: self,
+//                                               queue: nil) { [weak self] notification in
+//            guard let strongSelf = self else { return }
+//            guard let object = notification.object as? TextField, object == strongSelf else { return }
+//
+//            if strongSelf.previousValue != strongSelf.text {
+//                strongSelf.textFieldDelegate?.textFieldEditingChanged(strongSelf)
+//                strongSelf.validate()
+//            }
+//            strongSelf.previousValue = strongSelf.text
+//        }
     }
 
     @discardableResult
