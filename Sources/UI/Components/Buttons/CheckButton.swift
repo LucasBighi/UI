@@ -17,6 +17,8 @@ public class CheckButton: Button {
         didSet {
             backgroundColor = UI.theme.checkButtonBackgroundColor(where: isChecked)
             layer.borderColor = UI.theme.checkButtonBorderColor(where: isChecked)?.cgColor
+            setBackgroundImage(isChecked ? UIImage(named: "checkbox", in: .module, compatibleWith: nil) : nil,
+                               for: .normal)
         }
     }
 
@@ -34,6 +36,8 @@ public class CheckButton: Button {
         layer.cornerRadius = UI.theme.buttonCornerRadius
         backgroundColor = UI.theme.checkButtonBackgroundColor(where: isChecked)
         layer.borderColor = UI.theme.checkButtonBorderColor(where: isChecked)?.cgColor
+        setBackgroundImage(isChecked ? UIImage(named: "checkbox", in: .module, compatibleWith: nil) : nil,
+                           for: .normal)
     }
 
     @objc
