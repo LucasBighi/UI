@@ -39,7 +39,8 @@ public class CheckButton: Button {
         layer.borderWidth = 2
         layer.cornerRadius = 2
         layer.borderColor = UI.theme.checkButtonBorderColor(where: isChecked)?.cgColor
-        setBackgroundImage(isChecked ? UIImage(inModuleNamed: "checkbox") : nil, for: .normal)
+        setBackgroundImage(isChecked ? UIImage(inModuleNamed: "check-box") : nil, for: .normal)
+        imageView?.contentMode = .scaleToFill
         tintColor = UI.theme.checkButtonBackgroundColor(where: isChecked)
     }
 
