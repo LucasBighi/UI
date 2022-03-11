@@ -16,17 +16,25 @@ public protocol TextFieldDelegate: NSObjectProtocol {
 }
 
 public protocol TextFieldValidatorDelegate: NSObjectProtocol {
-    func validator(inTextField textField: TextField) -> Bool
-    func viewForValidator(inTextField textField: TextField) -> UIView
+    func validator(in textField: TextField) -> Bool
+    func textForValidator(in textField: TextField) -> String?
+    func viewForValidator(in textField: TextField) -> UIView
 }
 
 public extension TextFieldValidatorDelegate {
-    func validator(inTextField textField: TextField) -> Bool {
-        return textField.text != nil && !textField.text!.isEmpty
+    func textForValidator(in textField: TextField) -> String? {
+        return nil
     }
+    
+    func viewForValidator(in textField: TextField) -> UIView {
+        let label = UILabel()
+        label.textColor = UI.theme.validatorColor
+        label.font = .secondary(.regular, ofSize: 12)
 
-    func viewForValidator(inTextField textField: TextField) -> UIView {
-        return UIView()
+        let view = UIView()
+        view.sv(label)
+        view.layout(|-16.5-label-16.5-|)
+        return view
     }
 }
 
@@ -40,17 +48,6 @@ public class TextField: UITextField {
 
     private var previousValue: String?
     private var validatorContentView = UIView()
-    
-    public lazy var validatorView: UIView = {
-        let label = UILabel()
-        label.textColor = #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1)
-        label.font = .secondary(.regular, ofSize: 12)
-
-        let view = UIView()
-        view.sv(label)
-        view.layout(|-16.5-label-16.5-|)
-        return view
-    }()
 
     public weak var textFieldDelegate: TextFieldDelegate?
     public weak var validatorDelegate: TextFieldValidatorDelegate?
@@ -121,32 +118,24 @@ public class TextField: UITextField {
 
             if strongSelf.previousValue != strongSelf.text {
                 strongSelf.textFieldDelegate?.textFieldEditingChanged(strongSelf)
+                if strongSelf.validatorDelegate != nil {
+                    strongSelf.validate()
+                }
             }
             strongSelf.previousValue = strongSelf.text
         }
     }
 
-    @objc
-    private func editingChanged() {
-        textFieldDelegate?.textFieldEditingChanged(self)
-    }
-
     @discardableResult
     public func validate() -> Bool {
-        let isValid = validatorDelegate?.validator(inTextField: self) ?? false
+        let isValid = validatorDelegate?.validator(in: self) ?? false
         setupValidatorView(isValid: isValid)
-        bottomLine.backgroundColor = !isValid ? #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1) : isEditing ? .primaryColor : .gray
+        bottomLine.backgroundColor = !isValid ? UI.theme.validatorColor : isEditing ? .primaryColor : .gray
         return isValid
     }
     
     public func getText() -> String {
         return (text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-    
-    public func showValidationMessage(_ message: String) {
-        if let validatorLabel = validatorView as? UILabel {
-            validatorLabel.text = message
-        }
     }
 
     private func setupValidatorView(isValid: Bool) {
@@ -156,7 +145,7 @@ public class TextField: UITextField {
             validatorContentView.subviews.forEach { $0.removeFromSuperview() }
         }
         
-        if let validatorView = validatorDelegate?.viewForValidator(inTextField: self) {
+        if let validatorView = validatorDelegate?.viewForValidator(in: self) {
             validatorContentView.sv(validatorView)
             validatorContentView.layout(
                 0,

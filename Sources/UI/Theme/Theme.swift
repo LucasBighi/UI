@@ -13,10 +13,10 @@ public protocol AppTheme {
     var headerFont: UIFont { get }
     var titleFont: UIFont { get }
     var subtitleFont: UIFont { get }
-
-    // MARK: Common Button
-    var buttonCornerRadius: CGFloat { get }
+    // MARK: Text Field
+    var validatorColor: UIColor? { get }
     // MARK: Button
+    var buttonCornerRadius: CGFloat { get }
     func buttonHeight(ofStyle style: Button.Style, where isEnabled: Bool) -> CGFloat
     func buttonBackgroundColor(ofStyle style: Button.Style, where isEnabled: Bool) -> UIColor?
     func buttonBorderColor(ofStyle style: Button.Style, where isEnabled: Bool) -> UIColor?
@@ -26,7 +26,6 @@ public protocol AppTheme {
     // MARK: Check Button
     func checkButtonBackgroundColor(where isChecked: Bool) -> UIColor?
     func checkButtonBorderColor(where isChecked: Bool) -> UIColor?
-    
     // MARK: ViewController
     var viewControllerBackgroundColor: UIColor? { get }
 }
