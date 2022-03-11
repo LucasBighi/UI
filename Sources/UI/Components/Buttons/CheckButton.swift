@@ -8,9 +8,11 @@
 import UIKit
 
 public class CheckButton: Button {
+    
+    var changeValueAction: ((_ isChecked: Bool) -> Void)?
 
     open override var intrinsicContentSize: CGSize {
-        return CGSize(width: 40, height: 40)
+        return CGSize(width: 24, height: 24)
     }
 
     public var isChecked: Bool {
@@ -19,6 +21,7 @@ public class CheckButton: Button {
             layer.borderColor = UI.theme.checkButtonBorderColor(where: isChecked)?.cgColor
             setBackgroundImage(isChecked ? UIImage(named: "checkbox", in: .module, compatibleWith: nil) : nil,
                                for: .normal)
+            changeValueAction?(isChecked)
         }
     }
 
@@ -28,8 +31,9 @@ public class CheckButton: Button {
         commonInit(title: "", isEnabled: true, action: nil)
     }
 
-    public init(isChecked: Bool = false) {
+    public init(isChecked: Bool = false, changeValueAction: ((_ isChecked: Bool) -> Void)?) {
         self.isChecked = isChecked
+        self.changeValueAction = changeValueAction
         super.init(style: .primary, title: "", isEnabled: true, action: nil)
         addTarget(self, action: #selector(didTouch), for: .touchUpInside)
         layer.borderWidth = 5
