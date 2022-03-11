@@ -38,15 +38,19 @@ public class TextField: UITextField {
         return view
     }()
 
-    lazy var floatPlaceholder: UILabel = {
-        let label = UILabel()
-        label.attributedText = self.attributedPlaceholder
-        label.text = self.placeholder
-        return label
-    }()
-
     private var previousValue: String?
     private var validatorContentView = UIView()
+    
+    public lazy var validatorView: UIView = {
+        let label = UILabel()
+        label.textColor = #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1)
+        label.font = .secondary(.regular, ofSize: 12)
+
+        let view = UIView()
+        view.sv(label)
+        view.layout(|-16.5-label-16.5-|)
+        return view
+    }()
 
     public weak var textFieldDelegate: TextFieldDelegate?
     public weak var validatorDelegate: TextFieldValidatorDelegate?
@@ -137,6 +141,10 @@ public class TextField: UITextField {
     
     public func getText() -> String {
         return (text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    
+    public func showValidationMessage(_ message: String) {
+        
     }
 
     private func setupValidatorView(isValid: Bool) {
