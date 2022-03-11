@@ -61,9 +61,6 @@ public class TextField: UITextField {
     
     public override var text: String? {
         didSet {
-//            if validatorDelegate != nil {
-//                validate()
-//            }
             textFieldDelegate?.textFieldEditingChanged(self)
         }
     }
@@ -121,9 +118,7 @@ public class TextField: UITextField {
 
             if strongSelf.previousValue != strongSelf.text {
                 strongSelf.textFieldDelegate?.textFieldEditingChanged(strongSelf)
-                if strongSelf.validatorDelegate != nil {
-                    strongSelf.validate()
-                }
+                strongSelf.validate()
             }
             strongSelf.previousValue = strongSelf.text
         }
