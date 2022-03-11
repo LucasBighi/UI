@@ -61,6 +61,9 @@ public class TextField: UITextField {
     
     public override var text: String? {
         didSet {
+            if validatorDelegate != nil {
+                validate()
+            }
             textFieldDelegate?.textFieldEditingChanged(self)
         }
     }
@@ -172,9 +175,6 @@ extension TextField: UITextFieldDelegate {
     }
 
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if validatorDelegate != nil {
-            validate()
-        }
         guard let text = textField.text else { return false }
         guard let mask = stringMask else { return true }
         let newString = (text as NSString).replacingCharacters(in: range, with: string)
