@@ -162,6 +162,8 @@ public class TextField: UITextField {
 
 extension TextField: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
+        let isValid = validatorDelegate?.validator(in: self) ?? false
+        bottomLine.backgroundColor = !isValid ? UI.theme.validatorColor : isEditing ? .primaryColor : .gray
         textFieldDelegate?.textFieldDidBeginEditing(self)
     }
 
