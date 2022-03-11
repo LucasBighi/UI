@@ -18,8 +18,7 @@ public class CheckButton: Button {
     public var isChecked: Bool {
         didSet {
             layer.borderColor = UI.theme.checkButtonBorderColor(where: isChecked)?.cgColor
-            setBackgroundImage(isChecked ? UIImage(named: "checkbox", in: .module, compatibleWith: nil) : nil,
-                               for: .normal)
+            setBackgroundImage(isChecked ? UIImage(inModuleNamed: "checkbox") : nil, for: .normal)
             changeValueAction?(isChecked)
         }
     }
@@ -36,9 +35,9 @@ public class CheckButton: Button {
         super.init(style: .primary, title: "", isEnabled: true, action: nil)
         addTarget(self, action: #selector(didTouch), for: .touchUpInside)
         layer.borderWidth = 2
+        layer.cornerRadius = 0
         layer.borderColor = UI.theme.checkButtonBorderColor(where: isChecked)?.cgColor
-        setBackgroundImage(isChecked ? UIImage(named: "checkbox", in: .module, compatibleWith: nil) : nil,
-                           for: .normal)
+        setBackgroundImage(isChecked ? UIImage(inModuleNamed: "checkbox") : nil, for: .normal)
     }
 
     @objc
