@@ -103,17 +103,6 @@ public class TextField: UITextField {
         commonInit(text: text, placeholder: placeholder, mask: mask)
     }
 
-    private func setupFloatPlaceholder() {
-        let phBounds = placeholderRect(forBounds: bounds)
-//        floatPlaceholder.text = "Float placeholder"
-        sv(floatPlaceholder)
-        layout(
-            phBounds.minY,
-            |-phBounds.minX-floatPlaceholder-| ~ phBounds.height
-        )
-        placeholder = nil
-    }
-
     private func commonInit(text: String? = nil, placeholder: String? = nil, mask: Mask? = nil) {
         delegate = self
         self.text = text
@@ -174,24 +163,17 @@ public class TextField: UITextField {
 
 extension TextField: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.3) {
-            self.floatPlaceholder.topConstraint?.constant = -15
-            self.floatPlaceholder.widthConstraint?.constant = 30
-            self.layoutIfNeeded()
-        }
+        validate()
         textFieldDelegate?.textFieldDidBeginEditing(self)
     }
 
     public func textFieldDidEndEditing(_ textField: UITextField) {
-        UIView.animate(withDuration: 0.3) {
-            self.floatPlaceholder.topConstraint?.constant = 0
-            self.floatPlaceholder.widthConstraint?.constant = self.bounds.width
-            self.layoutIfNeeded()
-        }
+        validate()
         textFieldDelegate?.textFieldDidEndEditing(self)
     }
 
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        validate()
         guard let text = textField.text else { return false }
         guard let mask = stringMask else { return true }
         let newString = (text as NSString).replacingCharacters(in: range, with: string)
