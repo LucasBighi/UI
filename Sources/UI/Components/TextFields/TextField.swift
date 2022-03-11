@@ -163,7 +163,6 @@ public class TextField: UITextField {
 
 extension TextField: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
-        validate()
         textFieldDelegate?.textFieldDidBeginEditing(self)
     }
 
@@ -173,7 +172,6 @@ extension TextField: UITextFieldDelegate {
     }
 
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        validate()
         guard let text = textField.text else { return false }
         guard let mask = stringMask else { return true }
         let newString = (text as NSString).replacingCharacters(in: range, with: string)
