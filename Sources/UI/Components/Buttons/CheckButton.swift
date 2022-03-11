@@ -12,7 +12,7 @@ public class CheckButton: Button {
     var changeValueAction: ((_ isChecked: Bool) -> Void)?
 
     open override var intrinsicContentSize: CGSize {
-        return CGSize(width: 18, height: 18)
+        return CGSize(width: 24, height: 24)
     }
 
     public var isChecked: Bool {
