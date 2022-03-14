@@ -17,11 +17,6 @@ open class FormViewController: BaseViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
-        setupUI()
-    }
-
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
                                                name: NSNotification.Name.UIKeyboardWillShow,
@@ -31,11 +26,21 @@ open class FormViewController: BaseViewController {
                                                name: NSNotification.Name.UIKeyboardWillHide,
                                                object: nil)
     }
+
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupUI()
+    }
     
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillShow)
         NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillHide)
+    }
+    
+    open override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        textFields?.first?.becomeFirstResponder()
     }
 
     private func setupUI() {
@@ -77,7 +82,6 @@ open class FormViewController: BaseViewController {
 
             $0.inputAccessoryView = toolbar
         }
-        textFields?.first?.becomeFirstResponder()
     }
 
     private func setupSubmitButton() {
