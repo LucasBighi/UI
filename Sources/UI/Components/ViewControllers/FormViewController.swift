@@ -17,6 +17,11 @@ open class FormViewController: BaseViewController {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+    }
+
+    open override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setupUI()
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
                                                name: NSNotification.Name.UIKeyboardWillShow,
@@ -25,11 +30,6 @@ open class FormViewController: BaseViewController {
                                                selector: #selector(keyboardWillHide),
                                                name: NSNotification.Name.UIKeyboardWillHide,
                                                object: nil)
-    }
-
-    open override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setupUI()
     }
     
     open override func viewWillDisappear(_ animated: Bool) {
@@ -110,7 +110,7 @@ extension FormViewController {
     @objc open func keyboardWillShow(notification: NSNotification) {
         animateWithKeyboard(notification: notification) {
             (keyboardFrame) in
-            let constant = 20 + keyboardFrame.height
+            let constant = -(20 + keyboardFrame.height)
             self.submitButton?.bottomConstraint?.constant = constant
         }
 //          animateBottomViewWith(offset: -(keyboardRect.height + 20))
