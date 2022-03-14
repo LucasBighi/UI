@@ -13,7 +13,7 @@ public protocol PageControlDelegate: NSObjectProtocol {
 
 public class PageControl: UIPageControl {
     
-    weak var delegate: PageControlDelegate?
+    public weak var delegate: PageControlDelegate?
     
     private var lastPage = 0
     
