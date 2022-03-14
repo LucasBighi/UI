@@ -126,6 +126,9 @@ extension FormViewController {
 
 extension FormViewController: TextFieldDelegate {
     public func textFieldEditingChanged(_ textField: TextField) {
+        if let checkButton = view.subviews.compactMap({ $0 as? CheckButton }).first {
+            submitButton?.isEnabled = (textFields?.allSatisfy { $0.validate() } ?? false) && checkButton.isChecked
+        }
         submitButton?.isEnabled = textFields?.allSatisfy { $0.validate() } ?? false
     }
 
