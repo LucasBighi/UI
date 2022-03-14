@@ -34,6 +34,7 @@ open class FormViewController: BaseViewController {
                                                selector: #selector(keyboardWillHide),
                                                name: NSNotification.Name.UIKeyboardWillHide,
                                                object: nil)
+        textFields?.first?.becomeFirstResponder()
     }
     
     open override func viewWillDisappear(_ animated: Bool) {
@@ -81,7 +82,6 @@ open class FormViewController: BaseViewController {
 
             $0.inputAccessoryView = toolbar
         }
-        textFields?.first?.becomeFirstResponder()
     }
 
     private func setupSubmitButton() {
