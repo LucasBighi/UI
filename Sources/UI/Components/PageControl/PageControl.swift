@@ -7,17 +7,17 @@
 
 import UIKit
 
-protocol PageControlDelegate: NSObjectProtocol {
+public protocol PageControlDelegate: NSObjectProtocol {
     func pageControlDidChangePage(_ pageControl: PageControl)
 }
 
-class PageControl: UIPageControl {
+public class PageControl: UIPageControl {
     
     weak var delegate: PageControlDelegate?
     
     private var lastPage = 0
     
-    init(numberOfPages: Int) {
+    public init(numberOfPages: Int) {
         super.init(frame: .zero)
         self.numberOfPages = numberOfPages
         self.currentPage = 0
