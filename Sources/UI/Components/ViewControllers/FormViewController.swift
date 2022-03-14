@@ -37,11 +37,6 @@ open class FormViewController: BaseViewController {
         NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillShow)
         NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillHide)
     }
-    
-    open override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        textFields?.first?.becomeFirstResponder()
-    }
 
     private func setupUI() {
         setupTextFields()
@@ -82,6 +77,7 @@ open class FormViewController: BaseViewController {
 
             $0.inputAccessoryView = toolbar
         }
+        textFields?.first?.becomeFirstResponder()
     }
 
     private func setupSubmitButton() {
@@ -112,12 +108,20 @@ open class FormViewController: BaseViewController {
 
 extension FormViewController {
     @objc open func keyboardWillShow(notification: NSNotification) {
-        guard let keyboardRect = (notification.userInfo?[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else { return }
-          animateBottomViewWith(offset: -(keyboardRect.height + 20))
+        animateWithKeyboard(notification: notification) {
+            (keyboardFrame) in
+            let constant = 20 + keyboardFrame.height
+            self.submitButton?.bottomConstraint?.constant = constant
+        }
+//          animateBottomViewWith(offset: -(keyboardRect.height + 20))
     }
 
     @objc open func keyboardWillHide(notification: NSNotification) {
-        animateBottomViewWith(offset: submitButtonBottomSpace ?? 0)
+        animateWithKeyboard(notification: notification) {
+              (keyboardFrame) in
+            self.submitButton?.bottomConstraint?.constant = self.submitButtonBottomSpace ?? 0
+          }
+//        animateBottomViewWith(offset: submitButtonBottomSpace ?? 0)
     }
 
     private func animateBottomViewWith(offset: CGFloat) {
@@ -156,3 +160,40 @@ extension FormViewController: TextFieldDelegate {
         submitButton?.isEnabled = textFields?.allSatisfy { $0.validate() } ?? false
     }
 }
+
+extension FormViewController {
+    func animateWithKeyboard(
+        notification: NSNotification,
+        animations: ((_ keyboardFrame: CGRect) -> Void)?
+    ) {
+        // Extract the duration of the keyboard animation
+        let durationKey = UIKeyboardAnimationDurationUserInfoKey
+        let duration = notification.userInfo![durationKey] as! Double
+        
+        // Extract the final frame of the keyboard
+        let frameKey = UIKeyboardFrameEndUserInfoKey
+        let keyboardFrameValue = notification.userInfo![frameKey] as! NSValue
+        
+        // Extract the curve of the iOS keyboard animation
+        let curveKey = UIKeyboardAnimationCurveUserInfoKey
+        let curveValue = notification.userInfo![curveKey] as! Int
+        let curve = UIView.AnimationCurve(rawValue: curveValue)!
+
+        // Create a property animator to manage the animation
+        let animator = UIViewPropertyAnimator(
+            duration: duration,
+            curve: curve
+        ) {
+            // Perform the necessary animation layout updates
+            animations?(keyboardFrameValue.cgRectValue)
+            
+            // Required to trigger NSLayoutConstraint changes
+            // to animate
+            self.view?.layoutIfNeeded()
+        }
+        
+        // Start the animation
+        animator.startAnimation()
+    }
+}
+
