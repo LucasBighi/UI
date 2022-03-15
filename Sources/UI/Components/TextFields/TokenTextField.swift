@@ -50,13 +50,13 @@ class TokenField: UITextField {
     }
 }
 
-public class TokenTextField: UIView {
+public class TokenTextField: TextField {
 
     private var numberOfFields = 4
 
     private var tokenFields: [TokenField]?
 
-    public var text: String? {
+    public override var text: String? {
         get {
             guard let tokenFields = tokenFields else { return nil }
             return tokenFields.compactMap { return $0.text }.joined()
@@ -67,7 +67,7 @@ public class TokenTextField: UIView {
     }
 
     public init(text: String? = nil, numberOfFields: Int, fieldsSpacing: CGFloat = 10) {
-        super.init(frame: .zero)
+        super.init(text: text, placeholder: nil, mask: nil)
         commonInit(numberOfFields: numberOfFields, fieldsSpacing: fieldsSpacing)
     }
 
