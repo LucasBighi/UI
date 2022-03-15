@@ -14,7 +14,7 @@ import Stevia
     func didDeleteBackward(_ tokenField: TokenField)
 }
 
-class TokenField: UITextField {
+class TokenField: TextField {
 
     weak var tokenFieldDelegate: TokenFieldDelegate?
 
@@ -23,18 +23,18 @@ class TokenField: UITextField {
         commonInit(tag: 0)
     }
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        commonInit(tag: 0)
-    }
-
     override func deleteBackward() {
         super.deleteBackward()
         tokenFieldDelegate?.didDeleteBackward(self)
     }
+    
+    public override func textRect(forBounds bounds: CGRect) -> CGRect {
+        let rect = super.textRect(forBounds: bounds)
+        return CGRect(x: rect.minX, y: 0, width: rect.width, height: rect.height + 20)
+    }
 
     init(tag: Int) {
-        super.init(frame: .zero)
+        super.init()
         commonInit(tag: tag)
     }
 
@@ -84,6 +84,7 @@ public class TokenTextField: TextField {
 
     private func commonInit(numberOfFields: Int, fieldsSpacing: CGFloat = 10) {
         backgroundColor = .clear
+        bottomLine.isHidden = true
         self.numberOfFields = numberOfFields
         setupTextFields(fieldsSpacing: fieldsSpacing)
     }
