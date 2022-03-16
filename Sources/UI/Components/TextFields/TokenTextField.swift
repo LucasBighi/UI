@@ -137,8 +137,6 @@ public class TokenTextField: TextField {
             tokenField.font = .systemFont(ofSize: 25, weight: .regular)
             tokenField.textColor = UIColor(hex: "17258E")
             tokenField.Height == Height
-            tokenField.tokenFieldDelegate = self
-            tokenField.validatorDelegate = self
             stackView.addArrangedSubview(tokenField)
             return tokenField
         }
@@ -173,6 +171,7 @@ extension TokenTextField: TokenFieldDelegate {
     }
 
     func didBeginEditing(_ tokenField: TokenField) {
+        textFieldDelegate?.textFieldDidBeginEditing(self)
         if let tokenFieldText = tokenField.text, !tokenFieldText.isEmpty {
             if let text = text {
                 focusOnTextField(atIndex: text.count == numberOfFields ? text.count - 1 : text.count)
@@ -181,6 +180,7 @@ extension TokenTextField: TokenFieldDelegate {
     }
 
     func editingChanged(_ tokenField: TokenField) {
+        textFieldDelegate?.textFieldEditingChanged(self)
         if let text = tokenField.text, text.count > 0 {
             if tokenField.tag + 1 < numberOfFields {
                 focusOnTextField(atIndex: tokenField.tag + 1)
@@ -188,18 +188,5 @@ extension TokenTextField: TokenFieldDelegate {
                 tokenFields?.last?.resignFirstResponder()
             }
         }
-    }
-}
-
-extension TokenTextField: TextFieldValidatorDelegate {
-    public func validator(in textField: TextField) -> Bool {
-        return false
-    }
-    
-    public func viewForValidator(in textField: TextField) -> UIView {
-        let label = Label(text: "Código inválido ou expirado",
-                          font: .systemFont(ofSize: 12, weight: .regular),
-                          textColor: UIColor(hex: "B00020"))
-        return label
     }
 }
