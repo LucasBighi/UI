@@ -112,6 +112,7 @@ public class TokenTextField: TextField {
     
     public func showValidator(withMessage message: String) {
         guard let validatorLabel = validatorDelegate?.viewForValidator(in: self) as? Label else { return }
+        validatorLabel.isHidden = false
         validatorLabel.text = message
     }
 
