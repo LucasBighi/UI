@@ -40,9 +40,6 @@ class TokenField: TextField {
 
     private func commonInit(tag: Int) {
         self.tag = tag
-        self.layer.cornerRadius = 10
-        self.layer.borderWidth = 2
-        self.layer.borderColor = UIColor.gray.cgColor
         self.keyboardType = .numberPad
         self.textAlignment = .center
         self.addTarget(tokenFieldDelegate, action: #selector(tokenFieldDelegate?.didBeginEditing(_:)), for: .editingDidBegin)
