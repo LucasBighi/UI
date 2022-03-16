@@ -76,6 +76,18 @@ public class TokenTextField: TextField {
         }
     }
     
+    public override var intrinsicContentSize: CGSize {
+        var size = super.intrinsicContentSize
+        size.height = 70
+        return size
+    }
+    
+    public override func becomeFirstResponder() -> Bool {
+        if super.becomeFirstResponder() { return true }
+        tokenFields?.first?.becomeFirstResponder()
+        return false
+    }
+    
     public override func draw(_ rect: CGRect) {
         sv(
             bottomLine,
@@ -90,12 +102,6 @@ public class TokenTextField: TextField {
             |-0-bottomLine-0-| ~ 1
         )
     }
-
-    public override var intrinsicContentSize: CGSize {
-        var size = super.intrinsicContentSize
-        size.height = 70
-        return size
-    }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
@@ -105,6 +111,11 @@ public class TokenTextField: TextField {
     public init(text: String? = nil, numberOfFields: Int, fieldsSpacing: CGFloat = 25) {
         super.init(text: text, placeholder: nil, mask: nil)
         commonInit(numberOfFields: numberOfFields, fieldsSpacing: fieldsSpacing)
+    }
+    
+    public func showValidator(withMessage message: String) {
+        guard let validatorLabel = validatorDelegate?.viewForValidator(in: self) as? Label else { return }
+        validatorLabel.text = message
     }
 
     private func commonInit(numberOfFields: Int, fieldsSpacing: CGFloat) {
