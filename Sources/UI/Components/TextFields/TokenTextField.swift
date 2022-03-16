@@ -82,6 +82,7 @@ public class TokenTextField: TextField {
         return size
     }
     
+    @discardableResult
     public override func becomeFirstResponder() -> Bool {
         if super.becomeFirstResponder() { return true }
         tokenFields?.first?.becomeFirstResponder()
