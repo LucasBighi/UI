@@ -111,9 +111,16 @@ public class TokenTextField: TextField {
     }
     
     public func showValidator(withMessage message: String) {
-        guard let validatorLabel = validatorDelegate?.viewForValidator(in: self) as? Label else { return }
-        validatorLabel.isHidden = false
-        validatorLabel.text = message
+        let label = Label(text: message,
+                          font: .secondary(.regular, ofSize: 12),
+                          textColor: #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1))
+        
+        validatorContentView.sv(label)
+        validatorContentView.layout(
+            0,
+            |-0-label-0-|,
+            0
+        )
     }
 
     private func commonInit(numberOfFields: Int, fieldsSpacing: CGFloat) {
