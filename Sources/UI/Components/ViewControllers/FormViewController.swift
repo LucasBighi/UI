@@ -137,7 +137,7 @@ extension FormViewController {
 }
 
 extension FormViewController: TextFieldDelegate {
-    public func textFieldEditingChanged(_ textField: TextField) {
+    @objc open func textFieldEditingChanged(_ textField: TextField) {
         if let checkButton = view.subviews.compactMap({ $0 as? CheckButton }).first {
             submitButton?.isEnabled = (textFields?.allSatisfy { $0.validate() } ?? false) && checkButton.isChecked
             return
@@ -145,7 +145,7 @@ extension FormViewController: TextFieldDelegate {
         submitButton?.isEnabled = textFields?.allSatisfy { $0.validate() } ?? false
     }
 
-    public func textFieldShouldReturn(_ textField: TextField) -> Bool {
+    @objc open func textFieldShouldReturn(_ textField: TextField) -> Bool {
         if let activeFields = textFields, activeFields.count - 1 == activeTextField?.tag {
             textField.resignFirstResponder()
         } else {
@@ -154,12 +154,12 @@ extension FormViewController: TextFieldDelegate {
         return true
     }
 
-    public func textFieldDidBeginEditing(_ textField: TextField) {
+    @objc open func textFieldDidBeginEditing(_ textField: TextField) {
         activeTextField = textField
         submitButton?.isEnabled = textFields?.allSatisfy { $0.validate() } ?? false
     }
 
-    public func textFieldDidEndEditing(_ textField: TextField) {
+    @objc open func textFieldDidEndEditing(_ textField: TextField) {
         activeTextField = nil
         submitButton?.isEnabled = textFields?.allSatisfy { $0.validate() } ?? false
     }
