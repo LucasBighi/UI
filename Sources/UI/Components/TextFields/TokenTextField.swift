@@ -47,7 +47,13 @@ class TokenField: TextField {
     }
 }
 
+public protocol TokenTextFieldDelegate: NSObjectProtocol {
+    func editingChanged(_ tokenTextField: TokenTextField)
+}
+
 public class TokenTextField: TextField {
+    
+    public weak var tokenTextFieldDelegate: TokenTextFieldDelegate?
 
     private var numberOfFields = 4
 
@@ -64,19 +70,7 @@ public class TokenTextField: TextField {
         }
     }
     
-    public override var textFieldDelegate: TextFieldDelegate? {
-        didSet {
-            tokenFields?.forEach { $0.textFieldDelegate = textFieldDelegate }
-            textFieldDelegate = nil
-        }
-    }
-    
-    public override var validatorDelegate: TextFieldValidatorDelegate? {
-        didSet {
-            tokenFields?.forEach { $0.validatorDelegate = validatorDelegate }
-            validatorDelegate = nil
-        }
-    }
+
     
     public override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
@@ -182,7 +176,7 @@ extension TokenTextField: TokenFieldDelegate {
     }
 
     func editingChanged(_ tokenField: TokenField) {
-        textFieldDelegate?.textFieldEditingChanged(self)
+        tokenTextFieldDelegate?.editingChanged(self)
         if let text = tokenField.text, text.count > 0 {
             if tokenField.tag + 1 < numberOfFields {
                 focusOnTextField(atIndex: tokenField.tag + 1)
