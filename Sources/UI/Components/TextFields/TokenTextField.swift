@@ -59,28 +59,56 @@ public class TokenTextField: TextField {
             return tokenFields.compactMap { return $0.text }.joined()
         }
         set {
-            print(newValue)
+            let array = newValue?.map { String($0) }
+            tokenFields?.forEach { $0.text = array?[$0.tag] }
         }
     }
+    
+    public override var textFieldDelegate: TextFieldDelegate? {
+        didSet {
+            tokenFields?.forEach { $0.textFieldDelegate = textFieldDelegate }
+        }
+    }
+    
+    public override var validatorDelegate: TextFieldValidatorDelegate? {
+        didSet {
+            tokenFields?.forEach { $0.validatorDelegate = validatorDelegate }
+        }
+    }
+    
+    public override func draw(_ rect: CGRect) {
+        sv(
+            bottomLine,
+            validatorContentView
+        )
 
-    public init(text: String? = nil, numberOfFields: Int, fieldsSpacing: CGFloat = 10) {
-        super.init(text: text, placeholder: nil, mask: nil)
-        commonInit(numberOfFields: numberOfFields, fieldsSpacing: fieldsSpacing)
+        layout(
+            0,
+            |-0-validatorContentView-0-|,
+            10,
+            textRect(forBounds: bounds).maxY,
+            |-0-bottomLine-0-| ~ 1
+        )
     }
 
     public override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
-        size.height = 50
+        size.height = 70
         return size
     }
-
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        commonInit(numberOfFields: 4)
+        commonInit(numberOfFields: 4, fieldsSpacing: 30)
+    }
+    
+    public init(text: String? = nil, numberOfFields: Int, fieldsSpacing: CGFloat = 25) {
+        super.init(text: text, placeholder: nil, mask: nil)
+        commonInit(numberOfFields: numberOfFields, fieldsSpacing: fieldsSpacing)
     }
 
-    private func commonInit(numberOfFields: Int, fieldsSpacing: CGFloat = 10) {
-        backgroundColor = .clear
+    private func commonInit(numberOfFields: Int, fieldsSpacing: CGFloat) {
+        addTarget(self, action: #selector(editingDidBegin), for: .editingDidBegin)
         bottomLine.isHidden = true
         self.numberOfFields = numberOfFields
         setupTextFields(fieldsSpacing: fieldsSpacing)
@@ -94,18 +122,32 @@ public class TokenTextField: TextField {
 
         tokenFields = (0..<numberOfFields).map {
             let tokenField = TokenField(tag: $0)
+            tokenField.font = .systemFont(ofSize: 25, weight: .regular)
+            tokenField.textColor = UIColor(hex: "17258E")
             tokenField.Height == Height
             tokenField.tokenFieldDelegate = self
+            tokenField.validatorDelegate = self
             stackView.addArrangedSubview(tokenField)
             return tokenField
         }
+        
+        let checkImageView = UIImageView(image: UIImage(inModuleNamed: "round-check"))
 
-        sv(stackView)
-        stackView.fillContainer()
+        sv(stackView, checkImageView)
+        layout(
+            0,
+            |-30-stackView-20-checkImageView.size(20)-0-|,
+            0
+        )
     }
 
     private func focusOnTextField(atIndex index: Int) {
         tokenFields?[index].becomeFirstResponder()
+    }
+    
+    @objc
+    private func editingDidBegin() {
+        tokenFields?.first?.becomeFirstResponder()
     }
 }
 
@@ -134,5 +176,18 @@ extension TokenTextField: TokenFieldDelegate {
                 tokenFields?.last?.resignFirstResponder()
             }
         }
+    }
+}
+
+extension TokenTextField: TextFieldValidatorDelegate {
+    public func validator(in textField: TextField) -> Bool {
+        return false
+    }
+    
+    public func viewForValidator(in textField: TextField) -> UIView {
+        let label = Label(text: "Código inválido ou expirado",
+                          font: .systemFont(ofSize: 12, weight: .regular),
+                          textColor: UIColor(hex: "B00020"))
+        return label
     }
 }

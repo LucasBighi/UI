@@ -47,7 +47,7 @@ public class TextField: UITextField {
     }()
 
     private var previousValue: String?
-    private var validatorContentView = UIView()
+    var validatorContentView = UIView()
 
     public weak var textFieldDelegate: TextFieldDelegate?
     public weak var validatorDelegate: TextFieldValidatorDelegate?
@@ -65,7 +65,7 @@ public class TextField: UITextField {
         }
     }
 
-    open override var intrinsicContentSize: CGSize {
+    public override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
         size.height = 50
         return size
