@@ -67,12 +67,14 @@ public class TokenTextField: TextField {
     public override var textFieldDelegate: TextFieldDelegate? {
         didSet {
             tokenFields?.forEach { $0.textFieldDelegate = textFieldDelegate }
+            textFieldDelegate = nil
         }
     }
     
     public override var validatorDelegate: TextFieldValidatorDelegate? {
         didSet {
             tokenFields?.forEach { $0.validatorDelegate = validatorDelegate }
+            validatorDelegate = nil
         }
     }
     
