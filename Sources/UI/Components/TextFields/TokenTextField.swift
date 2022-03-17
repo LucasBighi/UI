@@ -8,50 +8,17 @@
 import UIKit
 import Stevia
 
-@objc protocol TokenFieldDelegate: NSObjectProtocol {
-    func editingChanged(_ tokenField: TokenField)
-    func didBeginEditing(_ tokenField: TokenField)
-    func didDeleteBackward(_ tokenField: TokenField)
-}
-
-class TokenField: TextField {
-
-    weak var tokenFieldDelegate: TokenFieldDelegate?
-
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        commonInit(tag: 0)
-    }
-
-    override func deleteBackward() {
-        super.deleteBackward()
-        tokenFieldDelegate?.didDeleteBackward(self)
-    }
-    
-    public override func textRect(forBounds bounds: CGRect) -> CGRect {
-        let rect = super.textRect(forBounds: bounds)
-        return CGRect(x: rect.minX, y: 0, width: rect.width, height: rect.height + 20)
-    }
-
-    init(tag: Int) {
-        super.init()
-        commonInit(tag: tag)
-    }
-
-    private func commonInit(tag: Int) {
-        self.tag = tag
-        self.keyboardType = .numberPad
-        self.textAlignment = .center
-        self.addTarget(tokenFieldDelegate, action: #selector(tokenFieldDelegate?.didBeginEditing(_:)), for: .editingDidBegin)
-        self.addTarget(tokenFieldDelegate, action: #selector(tokenFieldDelegate?.editingChanged(_:)), for: .editingChanged)
-    }
-}
-
 public protocol TokenTextFieldDelegate: NSObjectProtocol {
     func editingChanged(_ tokenTextField: TokenTextField)
 }
 
-public class TokenTextField: TextField {
+public class TokenTextField: UIView {
+    
+    private lazy var validatorLabel = { Label(text: nil,
+                                              font: .secondary(.regular, ofSize: 12),
+                                              textColor: UIColor(hex: "B00020")) }()
+    
+    private lazy var checkImageView = { return UIImageView(image: UIImage(inModuleNamed: "round-check")) }()
     
     public weak var tokenTextFieldDelegate: TokenTextFieldDelegate?
 
@@ -59,7 +26,7 @@ public class TokenTextField: TextField {
 
     private var tokenFields: [TokenField]?
 
-    public override var text: String? {
+    public var text: String? {
         get {
             guard let tokenFields = tokenFields else { return nil }
             return tokenFields.compactMap { return $0.text }.joined()
@@ -69,8 +36,6 @@ public class TokenTextField: TextField {
             tokenFields?.forEach { $0.text = array?[$0.tag] }
         }
     }
-    
-
     
     public override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
@@ -85,52 +50,31 @@ public class TokenTextField: TextField {
         return false
     }
     
-    public override func draw(_ rect: CGRect) {
-        sv(
-            bottomLine,
-            validatorContentView
-        )
-
-        layout(
-            0,
-            |-0-validatorContentView-0-|,
-            10,
-            textRect(forBounds: bounds).maxY,
-            |-0-bottomLine-0-| ~ 1
-        )
-    }
-    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         commonInit(numberOfFields: 4, fieldsSpacing: 30)
     }
     
     public init(text: String? = nil, numberOfFields: Int, fieldsSpacing: CGFloat = 25) {
-        super.init(text: text, placeholder: nil, mask: nil)
-        commonInit(numberOfFields: numberOfFields, fieldsSpacing: fieldsSpacing)
+        super.init(frame: .zero)
+        commonInit(text: text, numberOfFields: numberOfFields, fieldsSpacing: fieldsSpacing)
     }
     
     public func showValidator(withMessage message: String) {
-        let label = Label(text: message,
-                          font: .secondary(.regular, ofSize: 12),
-                          textColor: #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1))
-        
-        validatorContentView.sv(label)
-        validatorContentView.layout(
-            0,
-            |-0-label-0-|,
-            0
-        )
+        validatorLabel.text = message
+        validatorLabel.isHidden = false
     }
 
-    private func commonInit(numberOfFields: Int, fieldsSpacing: CGFloat) {
-        addTarget(self, action: #selector(editingDidBegin), for: .editingDidBegin)
-        bottomLine.isHidden = true
+    private func commonInit(text: String? = nil, numberOfFields: Int, fieldsSpacing: CGFloat) {
+        self.text = text
         self.numberOfFields = numberOfFields
-        setupTextFields(fieldsSpacing: fieldsSpacing)
+        setup(fieldsSpacing: fieldsSpacing)
     }
 
-    private func setupTextFields(fieldsSpacing: CGFloat) {
+    private func setup(fieldsSpacing: CGFloat) {
+        validatorLabel.isHidden = true
+        checkImageView.isHidden = true
+        
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
@@ -144,12 +88,17 @@ public class TokenTextField: TextField {
             stackView.addArrangedSubview(tokenField)
             return tokenField
         }
-        
-        let checkImageView = UIImageView(image: UIImage(inModuleNamed: "round-check"))
 
-        sv(stackView, checkImageView)
+        sv(
+            validatorLabel,
+            stackView,
+            checkImageView
+        )
+        
         layout(
             0,
+            |-0-validatorLabel-0-|,
+            16,
             |-30-stackView-20-checkImageView.size(20)-0-|,
             0
         )
@@ -175,7 +124,6 @@ extension TokenTextField: TokenFieldDelegate {
     }
 
     func didBeginEditing(_ tokenField: TokenField) {
-        textFieldDelegate?.textFieldDidBeginEditing(self)
         if let tokenFieldText = tokenField.text, !tokenFieldText.isEmpty {
             if let text = text {
                 focusOnTextField(atIndex: text.count == numberOfFields ? text.count - 1 : text.count)
@@ -190,6 +138,7 @@ extension TokenTextField: TokenFieldDelegate {
                 focusOnTextField(atIndex: tokenField.tag + 1)
             } else {
                 tokenFields?.last?.resignFirstResponder()
+                checkImageView.isHidden = false
             }
         }
     }
