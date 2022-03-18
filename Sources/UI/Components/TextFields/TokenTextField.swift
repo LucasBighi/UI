@@ -124,6 +124,7 @@ extension TokenTextField: TokenFieldDelegate {
     }
 
     func didBeginEditing(_ tokenField: TokenField) {
+        tokenField.bottomLine.backgroundColor = .primaryColor
         if let tokenFieldText = tokenField.text, !tokenFieldText.isEmpty {
             if let text = text {
                 focusOnTextField(atIndex: text.count == numberOfFields ? text.count - 1 : text.count)
