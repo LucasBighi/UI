@@ -15,6 +15,10 @@ public class HeaderLabel: Label {
         super.init(text: text, font: UI.theme.headerFont, textColor: textColor, textAlignment: textAlignment)
         commonInit(textColor: textColor)
     }
+    
+    public override init(html: String, font: UIFont = .primary(.regular, ofSize: 17)) {
+        super.init(html: html, font: font)
+    }
 
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
