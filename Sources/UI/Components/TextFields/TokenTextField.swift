@@ -86,6 +86,7 @@ public class TokenTextField: UIView {
 
         tokenFields = (0..<numberOfFields).map {
             let tokenField = TokenField(tag: $0)
+            tokenField.tokenFieldDelegate = self
             tokenField.font = .systemFont(ofSize: 25, weight: .regular)
             tokenField.textColor = UIColor(hex: "17258E")
             tokenField.Height == Height

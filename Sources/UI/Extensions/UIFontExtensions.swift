@@ -24,5 +24,20 @@ public extension UIFont {
         let secondaryFontName = AppInfo.infoForKey(.secondaryFontName)
         return UIFont(name: "\(secondaryFontName)-\(type.rawValue.capitalized)", size: size)!
     }
+    
+    var fontType: FontType {
+        guard let range = self.fontName.range(of: "-") else { return .regular }
+        let fontTypeString = self.fontName[range.upperBound...]
+        switch fontTypeString {
+        case "Regular":
+            return .regular
+        case "Bold":
+            return .bold
+        case "Light":
+            return .light
+        default:
+            return .regular
+        }
+    }
 }
 
