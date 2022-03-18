@@ -23,7 +23,25 @@ public class Label: UILabel {
     
     public init(html: String, font: UIFont = .primary(.regular, ofSize: 17)) {
         super.init(frame: .zero)
+        
+    }
 
+    public required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        self.numberOfLines = 0
+        self.textAlignment = textAlignment
+    }
+    
+    public var html: String {
+        get {
+            return text ?? ""
+        }
+        set {
+            setAttributes(with: newValue, andFont: font)
+        }
+    }
+    
+    private func setAttributes(with html: String, andFont font: UIFont = .primary(.regular, ofSize: 17)) {
         guard let encodedData = html.data(using: .utf8) else { return }
         do {
             let attributedText = try NSMutableAttributedString(data: encodedData,
@@ -50,12 +68,6 @@ public class Label: UILabel {
         } catch let error {
             print("Cannot create attributed String: \(error)")
         }
-    }
-
-    public required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        self.numberOfLines = 0
-        self.textAlignment = textAlignment
     }
 }
 
