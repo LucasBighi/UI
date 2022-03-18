@@ -25,9 +25,11 @@ public class Label: UILabel {
         super.init(frame: .zero)
 
         guard let encodedData = html.data(using: .utf8) else { return }
-        let attributedOptions = [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html]
         do {
-            let attributedText = try NSMutableAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
+            let attributedText = try NSMutableAttributedString(data: encodedData,
+                                                               options: [.documentType: NSAttributedString.DocumentType.html,
+                                                                         .characterEncoding: String.Encoding.utf8.rawValue],
+                                                               documentAttributes: nil)
             attributedText.addAttribute(.font, value: font, range: NSRange(location: 0, length: attributedText.length))
             
             if let bold = html.slice(from: "<b>", to: "</b>"),
