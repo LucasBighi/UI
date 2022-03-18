@@ -64,6 +64,10 @@ public class TokenTextField: UIView {
         validatorLabel.text = message
         validatorLabel.isHidden = false
     }
+    
+    public func getText() -> String {
+        return (text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
+    }
 
     private func commonInit(text: String? = nil, numberOfFields: Int, fieldsSpacing: CGFloat) {
         self.text = text
