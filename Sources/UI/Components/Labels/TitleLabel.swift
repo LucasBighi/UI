@@ -10,15 +10,15 @@ import UIKit
 public class TitleLabel: Label {
 
     public init(text: String?,
-                         textColor: UIColor? = .primaryTextColor,
-                         textAlignment: NSTextAlignment = .center) {
+                textColor: UIColor? = .primaryTextColor,
+                textAlignment: NSTextAlignment = .center) {
         super.init(text: text, font: UI.theme.titleFont, textColor: textColor, textAlignment: textAlignment)
         commonInit(textColor: textColor)
 
     }
     
-    public override init(html: String, font: UIFont = .primary(.regular, ofSize: 17)) {
-        super.init(html: html, font: font)
+    public init(html: String) {
+        super.init(html: html, font: UI.theme.titleFont)
     }
 
     public required init?(coder: NSCoder) {
