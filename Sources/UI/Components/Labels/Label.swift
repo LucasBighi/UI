@@ -23,33 +23,28 @@ public class Label: UILabel {
     
     public init(html: String, font: UIFont = .primary(.regular, ofSize: 17)) {
         super.init(frame: .zero)
-        
-        var alignment: String {
-            switch textAlignment {
-            case .left:
-                return "left"
-            case .right:
-                return "right"
-            default:
-                return "center"
-            }
-        }
-        
-//         let modifiedString = "<style>body{font-family: '\(font.fontName)'; font-size:\(font.pointSize)pt; color: \(alignment); line-height: \(lineheight)px; text-align: \(alignment); }</style>\(self)"
-//         guard let data = modifiedString.data(using: .utf8) else { return }
-//         do {
-//             return try NSAttributedString(data: data, options: [.documentType: NSAttributedString.DocumentType.html, .characterEncoding: String.Encoding.utf8.rawValue], documentAttributes: nil)
-//         }
-//         catch {
-//             print(error)
-//             return nil
-//         }
 
-        guard let encodedData = html.data(using: String.Encoding.utf8) else { return }
+        guard let encodedData = html.data(using: .utf8) else { return }
         let attributedOptions = [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html]
         do {
-            let attributedString = try NSAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
-            self.attributedText = attributedString
+            let attributedText = try NSMutableAttributedString(data: encodedData, options: attributedOptions, documentAttributes: nil)
+            attributedText.addAttribute(.font, value: font, range: NSRange(location: 0, length: attributedText.length))
+            
+            if let bold = html.slice(from: "<b>", to: "</b>"),
+               let fontFamily = font.fontFamily,
+               let boldFont = UIFont(name: "\(fontFamily)-Bold", size: font.pointSize),
+               let boldRange = attributedText.string.range(of: bold) {
+                attributedText.addAttribute(.font, value: boldFont, range: NSRange(boldRange, in: attributedText.string))
+            }
+            
+            if let italic = html.slice(from: "<i>", to: "</i>"),
+               let fontFamily = font.fontFamily,
+               let italicFont = UIFont(name: "\(fontFamily)-Italic", size: font.pointSize),
+               let italicRange = attributedText.string.range(of: italic) {
+                attributedText.addAttribute(.font, value: italicFont, range: NSRange(italicRange, in: attributedText.string))
+            }
+            
+            self.attributedText = attributedText
         } catch let error {
             print("Cannot create attributed String: \(error)")
         }
@@ -61,3 +56,21 @@ public class Label: UILabel {
         self.textAlignment = textAlignment
     }
 }
+
+extension String {
+    func slice(from: String, to: String) -> String? {
+        guard let rangeFrom = range(of: from)?.upperBound else { return nil }
+        guard let rangeTo = self[rangeFrom...].range(of: to)?.lowerBound else { return nil }
+        return String(self[rangeFrom..<rangeTo])
+    }
+}
+
+//extension String {
+//    func slice(from: String, to: String) -> String? {
+//        return (range(of: from)?.upperBound).flatMap { substringFrom in
+//            (range(of: to, range: substringFrom..<endIndex)?.lowerBound).map { substringTo in
+//                String(self[substringFrom..<substringTo])
+//            }
+//        }
+//    }
+//}

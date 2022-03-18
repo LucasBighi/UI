@@ -39,5 +39,10 @@ public extension UIFont {
             return .regular
         }
     }
+    
+    var fontFamily: String? {
+        guard let range = self.fontName.range(of: "-") else { return nil }
+        return String(self.fontName[..<range.lowerBound])
+    }
 }
 
