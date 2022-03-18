@@ -24,7 +24,9 @@ public class Button: UIButton {
         didSet {
             titleLabel?.font = UI.theme.buttonFont(ofStyle: style, where: isEnabled)
             backgroundColor = UI.theme.buttonBackgroundColor(ofStyle: style, where: isEnabled)
-            layer.borderColor = UI.theme.buttonBorderColor(ofStyle: style, where: isEnabled)?.cgColor
+            setBorder(color: UI.theme.buttonBorderColor(ofStyle: style, where: isEnabled),
+                      width: 5,
+                      cornerRadius: UI.theme.buttonCornerRadius)
         }
     }
     
@@ -55,9 +57,9 @@ public class Button: UIButton {
         setTitle(title, for: .normal)
         titleLabel?.font = UI.theme.buttonFont(ofStyle: style, where: isEnabled)
         backgroundColor = UI.theme.buttonBackgroundColor(ofStyle: style, where: isEnabled)
-        layer.borderWidth = 5
-        layer.borderColor = UI.theme.buttonBorderColor(ofStyle: style, where: isEnabled)?.cgColor
-        layer.cornerRadius = UI.theme.buttonCornerRadius
+        setBorder(color: UI.theme.buttonBorderColor(ofStyle: style, where: isEnabled),
+                  width: 5,
+                  cornerRadius: UI.theme.buttonCornerRadius)
     }
 
     @objc private func pressed(sender: UIButton) {
