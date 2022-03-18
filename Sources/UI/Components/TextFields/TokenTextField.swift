@@ -139,12 +139,12 @@ extension TokenTextField: TokenFieldDelegate {
 
     func editingChanged(_ tokenField: TokenField) {
         tokenTextFieldDelegate?.editingChanged(self)
+        checkImageView.isHidden = text?.count == numberOfFields
         if let text = tokenField.text, text.count > 0 {
             if tokenField.tag + 1 < numberOfFields {
                 focusOnTextField(atIndex: tokenField.tag + 1)
             } else {
                 tokenFields?.last?.resignFirstResponder()
-                checkImageView.isHidden = false
             }
         }
     }
