@@ -27,11 +27,7 @@ public class HeaderLabel: Label {
     }
 
     private func commonInit(textColor: UIColor?) {
-        func labelStyle(_ l: UILabel) {
-            l.font = UI.theme.headerFont
-            l.textColor = textColor
-        }
-        
-        style(labelStyle)
+        self.font = UI.theme.headerFont
+        self.textColor = textColor
     }
 }
