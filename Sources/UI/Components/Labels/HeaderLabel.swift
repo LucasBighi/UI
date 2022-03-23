@@ -6,25 +6,28 @@
 //
 
 import UIKit
+import Stevia
 
 public class HeaderLabel: Label {
 
-    public override init(text: String?, textAlignment: NSTextAlignment = .center) {
-        super.init(text: text, textAlignment: textAlignment)
-        commonInit()
+    public init(text: String?,
+                textColor: UIColor? = .primaryTextColor,
+                textAlignment: NSTextAlignment = .center) {
+        super.init(text: text, font: UI.theme.headerFont, textColor: textColor, textAlignment: textAlignment)
+        commonInit(textColor: textColor)
+    }
+    
+    public init(html: String) {
+        super.init(html: html, font: UI.theme.headerFont)
     }
 
     public required init?(coder: NSCoder) {
         super.init(coder: coder)
-        commonInit()
+        commonInit(textColor: textColor)
     }
 
-    private func commonInit() {
-        func labelStyle(_ l: UILabel) {
-            l.font = Theme.theme.headerFont
-            l.textColor = Theme.theme.primaryTextColor
-        }
-        
-        style(labelStyle)
+    private func commonInit(textColor: UIColor?) {
+        self.font = UI.theme.headerFont
+        self.textColor = textColor
     }
 }

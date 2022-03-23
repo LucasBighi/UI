@@ -13,7 +13,10 @@ public class PasswordTextField: TextField {
 
     public override var isSecureTextEntry: Bool {
         didSet {
-            showPasswordButton?.backgroundColor = isSecureTextEntry ? .blue : .red
+            showPasswordButton?.setImage(isSecureTextEntry
+                                         ? UIImage(named: "visibility-on", in: .module, compatibleWith: nil)
+                                         : UIImage(named: "visibility-off", in: .module, compatibleWith: nil),
+                                         for: .normal)
         }
     }
 
@@ -43,7 +46,8 @@ public class PasswordTextField: TextField {
                                                     y: 0,
                                                     width: intrinsicContentSize.height,
                                                     height: intrinsicContentSize.height))
-        showPasswordButton?.backgroundColor = .blue
+        showPasswordButton?.setImage(UIImage(inModuleNamed: "visibility-on"), for: .normal)
+        showPasswordButton?.tintColor = .black.withAlphaComponent(0.6)
         showPasswordButton?.addTarget(self, action: #selector(togglePasswordVisibility), for: .touchUpInside)
 
         rightView = showPasswordButton

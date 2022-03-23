@@ -16,22 +16,25 @@ public protocol TextFieldDelegate: NSObjectProtocol {
 }
 
 public protocol TextFieldValidatorDelegate: NSObjectProtocol {
-    func validator(inTextField textField: TextField) -> Bool
-    func viewForValidator(inTextField textField: TextField) -> UIView
-    func textForValidator(inTextField textField: TextField) -> String?
+    func validator(in textField: TextField) -> Bool
+    func textForValidator(in textField: TextField) -> String?
+    func viewForValidator(in textField: TextField) -> UIView
 }
 
 public extension TextFieldValidatorDelegate {
-    func validator(inTextField textField: TextField) -> Bool {
-        return textField.text != nil && !textField.text!.isEmpty
+    func textForValidator(in textField: TextField) -> String? {
+        return nil
     }
-
-    func viewForValidator(inTextField textField: TextField) -> UIView {
+    
+    func viewForValidator(in textField: TextField) -> UIView {
         let label = UILabel()
-        label.textColor = #colorLiteral(red: 0.6901960784, green: 0, blue: 0.1254901961, alpha: 1)
-        label.font = .custom(.regular, ofSize: 12)
-        label.textAlignment = .center
-        return label
+        label.textColor = UI.theme.validatorColor
+        label.font = .secondary(.regular, ofSize: 12)
+
+        let view = UIView()
+        view.sv(label)
+        view.layout(|-16.5-label-16.5-|)
+        return view
     }
 }
 
@@ -43,15 +46,8 @@ public class TextField: UITextField {
         return view
     }()
 
-    lazy var floatPlaceholder: UILabel = {
-        let label = UILabel()
-        label.attributedText = self.attributedPlaceholder
-        label.text = self.placeholder
-        return label
-    }()
-
-    private var previousValue : String?
-    private var validatorView: UIView!
+    private var previousValue: String?
+    var validatorContentView = UIView()
 
     public weak var textFieldDelegate: TextFieldDelegate?
     public weak var validatorDelegate: TextFieldValidatorDelegate?
@@ -62,28 +58,32 @@ public class TextField: UITextField {
         super.init(coder: coder)
         commonInit()
     }
+    
+    public override var text: String? {
+        didSet {
+            textFieldDelegate?.textFieldEditingChanged(self)
+        }
+    }
 
-    open override var intrinsicContentSize: CGSize {
+    public override var intrinsicContentSize: CGSize {
         var size = super.intrinsicContentSize
         size.height = 50
         return size
     }
 
     public override func draw(_ rect: CGRect) {
-        setupValidatorView()
-//        setupFloatPlaceholder()
         sv(
             bottomLine,
-            validatorView
+            validatorContentView
         )
 
         layout(
             textRect(forBounds: bounds).maxY,
             |-0-bottomLine-0-| ~ 1,
             10,
-            |-0-validatorView-0-| ~ 20
+            |-0-validatorContentView-0-|,
+            0
         )
-        delegate = self
     }
 
     public override func textRect(forBounds bounds: CGRect) -> CGRect {
@@ -104,78 +104,72 @@ public class TextField: UITextField {
         commonInit(text: text, placeholder: placeholder, mask: mask)
     }
 
-    private func setupFloatPlaceholder() {
-        let phBounds = placeholderRect(forBounds: bounds)
-//        floatPlaceholder.text = "Float placeholder"
-        sv(floatPlaceholder)
-        layout(
-            phBounds.minY,
-            |-phBounds.minX-floatPlaceholder-| ~ phBounds.height
-        )
-        placeholder = nil
-    }
-
     private func commonInit(text: String? = nil, placeholder: String? = nil, mask: Mask? = nil) {
+        delegate = self
         self.text = text
         self.placeholder = placeholder
         self.stringMask = mask
 
-//        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification,
-//                                               object: self,
-//                                               queue: nil) { [weak self] notification in
-//            guard let strongSelf = self else { return }
-//            guard let object = notification.object as? TextField, object == strongSelf else { return }
-//
-//            if strongSelf.previousValue != strongSelf.text {
-//                strongSelf.textFieldDelegate?.textFieldEditingChanged(strongSelf)
-//            }
-//            strongSelf.previousValue = strongSelf.text
-//        }
-    }
+        NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextFieldTextDidChange,
+                                               object: self,
+                                               queue: nil) { [weak self] notification in
+            guard let strongSelf = self else { return }
+            guard let object = notification.object as? TextField, object == strongSelf else { return }
 
-    @objc
-    private func editingChanged() {
-        textFieldDelegate?.textFieldEditingChanged(self)
+            if strongSelf.previousValue != strongSelf.text {
+                strongSelf.textFieldDelegate?.textFieldEditingChanged(strongSelf)
+            }
+            strongSelf.previousValue = strongSelf.text
+        }
     }
 
     @discardableResult
     public func validate() -> Bool {
-        validatorView.isHidden = validatorDelegate?.validator(inTextField: self) ?? false
-        return validatorDelegate?.validator(inTextField: self) ?? false
+        let isValid = validatorDelegate?.validator(in: self) ?? false
+        setupValidatorView(isValid: isValid)
+        bottomLine.backgroundColor = !isValid ? UI.theme.validatorColor : isEditing ? .primaryColor : .gray
+        return isValid
+    }
+    
+    public func getText() -> String {
+        return (text ?? "").trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    private func setupValidatorView() {
-        let validatorLabel = validatorDelegate?.viewForValidator(inTextField: self) as? UILabel
-        validatorLabel?.text = validatorDelegate?.textForValidator(inTextField: self)
-        validatorView = validatorLabel ?? UIView()
-        validatorView.isHidden = true
+    private func setupValidatorView(isValid: Bool) {
+        validatorContentView.isHidden = isValid
+        
+        if !validatorContentView.subviews.isEmpty {
+            validatorContentView.subviews.forEach { $0.removeFromSuperview() }
+        }
+        
+        if let validatorView = validatorDelegate?.viewForValidator(in: self) {
+            validatorContentView.sv(validatorView)
+            validatorContentView.layout(
+                0,
+                |-0-validatorView-0-|,
+                0
+            )
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(NSNotification.Name.UITextFieldTextDidChange)
     }
 }
 
 extension TextField: UITextFieldDelegate {
     public func textFieldDidBeginEditing(_ textField: UITextField) {
-        bottomLine.backgroundColor = Theme.theme.primaryColor
-        UIView.animate(withDuration: 0.3) {
-            self.floatPlaceholder.topConstraint?.constant = -15
-            self.floatPlaceholder.widthConstraint?.constant = 30
-            self.layoutIfNeeded()
-        }
+        let isValid = validatorDelegate?.validator(in: self) ?? false
+        bottomLine.backgroundColor = !isValid ? UI.theme.validatorColor : isEditing ? .primaryColor : .gray
         textFieldDelegate?.textFieldDidBeginEditing(self)
     }
 
     public func textFieldDidEndEditing(_ textField: UITextField) {
-        bottomLine.backgroundColor = .gray
-        UIView.animate(withDuration: 0.3) {
-            self.floatPlaceholder.topConstraint?.constant = 0
-            self.floatPlaceholder.widthConstraint?.constant = self.bounds.width
-            self.layoutIfNeeded()
-        }
         textFieldDelegate?.textFieldDidEndEditing(self)
     }
 
     public func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         guard let text = textField.text else { return false }
-        textFieldDelegate?.textFieldEditingChanged(self)
         guard let mask = stringMask else { return true }
         let newString = (text as NSString).replacingCharacters(in: range, with: string)
         textField.text = format(withMask: mask, phone: newString)

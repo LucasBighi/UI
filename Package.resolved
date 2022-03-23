@@ -9,6 +9,15 @@
           "revision": "87dd17a86240f16788239a78dd8be11c4b013150",
           "version": "4.8.0"
         }
+      },
+      {
+        "package": "Utils",
+        "repositoryURL": "https://github.com/LucasBighi/Utils",
+        "state": {
+          "branch": "develop",
+          "revision": "de851680f1ba16f26185e5d270884d243e2fa27c",
+          "version": null
+        }
       }
     ]
   },

@@ -8,15 +8,19 @@
 import UIKit
 
 public class CheckButton: Button {
+    
+    var changeValueAction: ((_ isChecked: Bool) -> Void)?
 
     open override var intrinsicContentSize: CGSize {
-        return CGSize(width: 40, height: 40)
+        return CGSize(width: 20, height: 20)
     }
 
     public var isChecked: Bool {
         didSet {
-            backgroundColor = Theme.theme.checkButtonBackgroundColor(where: isChecked)
-            layer.borderColor = Theme.theme.checkButtonBorderColor(where: isChecked).cgColor
+            setBorder(color: UI.theme.checkButtonBorderColor(where: isChecked), width: 5, cornerRadius: 5)
+            setBackgroundImage(isChecked ? UIImage(inModuleNamed: "check-box") : nil, for: .normal)
+            tintColor = UI.theme.checkButtonBackgroundColor(where: isChecked)
+            changeValueAction?(isChecked)
         }
     }
 
@@ -26,14 +30,17 @@ public class CheckButton: Button {
         commonInit(title: "", isEnabled: true, action: nil)
     }
 
-    public init(isChecked: Bool = false) {
+    public init(isChecked: Bool = false, changeValueAction: ((_ isChecked: Bool) -> Void)?) {
         self.isChecked = isChecked
+        self.changeValueAction = changeValueAction
         super.init(style: .primary, title: "", isEnabled: true, action: nil)
         addTarget(self, action: #selector(didTouch), for: .touchUpInside)
-        layer.borderWidth = 5
-        layer.cornerRadius = Theme.theme.buttonCornerRadius
-        backgroundColor = Theme.theme.checkButtonBackgroundColor(where: isChecked)
-        layer.borderColor = Theme.theme.checkButtonBorderColor(where: isChecked).cgColor
+        backgroundColor = .white
+        clipsToBounds = true
+        setBorder(color: UI.theme.checkButtonBorderColor(where: isChecked), width: 5, cornerRadius: 5)
+        setBackgroundImage(isChecked ? UIImage(inModuleNamed: "check-box") : nil, for: .normal)
+        imageView?.contentMode = .scaleToFill
+        tintColor = UI.theme.checkButtonBackgroundColor(where: isChecked)
     }
 
     @objc
