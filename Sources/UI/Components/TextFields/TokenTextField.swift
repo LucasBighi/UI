@@ -61,7 +61,7 @@ public class TokenTextField: UIView {
     }
     
     public func showValidator(withMessage message: String) {
-        validatorLabel.text = message
+        validatorLabel.html = message
         validatorLabel.isHidden = false
     }
     
