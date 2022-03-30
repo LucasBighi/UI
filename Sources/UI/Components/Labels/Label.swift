@@ -24,6 +24,7 @@ public class Label: UILabel {
     public init(html: String, font: UIFont = .primary(.regular, ofSize: 17)) {
         super.init(frame: .zero)
         self.font = font
+        self.numberOfLines = 0
         setAttributes(with: html, andFont: font)
     }
     
@@ -45,7 +46,7 @@ public class Label: UILabel {
                                                                          .characterEncoding: String.Encoding.utf8.rawValue],
                                                                documentAttributes: nil)
             let paragraphStyle = NSMutableParagraphStyle()
-            paragraphStyle.alignment = textAlignment
+            paragraphStyle.alignment = .center
             
             attributedText.addAttributes([.font: font, .paragraphStyle: paragraphStyle],
                                          range: NSRange(location: 0, length: attributedText.length))
