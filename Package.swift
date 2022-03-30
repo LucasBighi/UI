@@ -25,5 +25,5 @@ let package = Package(
                 "Utils"
             ])
     ],
-    swiftLanguageVersions: [.v4]
+    swiftLanguageVersions: [.v5]
 )

@@ -110,7 +110,7 @@ public class TextField: UITextField {
         self.placeholder = placeholder
         self.stringMask = mask
 
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.UITextFieldTextDidChange,
+        NotificationCenter.default.addObserver(forName: UITextField.textDidChangeNotification,
                                                object: self,
                                                queue: nil) { [weak self] notification in
             guard let strongSelf = self else { return }
@@ -153,7 +153,7 @@ public class TextField: UITextField {
     }
     
     deinit {
-        NotificationCenter.default.removeObserver(NSNotification.Name.UITextFieldTextDidChange)
+        NotificationCenter.default.removeObserver(UITextField.textDidChangeNotification)
     }
 }
 

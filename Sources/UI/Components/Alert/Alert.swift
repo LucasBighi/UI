@@ -22,7 +22,7 @@ public class Alert: UIAlertController {
 }
 
 public extension Alert {
-    func action(_ title: String, style: UIAlertActionStyle = .default, handler: ((UIAlertAction) -> Void)? = nil) -> Alert {
+    func action(_ title: String, style: UIAlertAction.Style = .default, handler: ((UIAlertAction) -> Void)? = nil) -> Alert {
         let alert = self
         alert.addAction(UIAlertAction(title: title, style: style, handler: handler))
         return alert

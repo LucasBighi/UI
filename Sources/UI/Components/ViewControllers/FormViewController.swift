@@ -28,19 +28,19 @@ open class FormViewController: BaseViewController {
         super.viewDidAppear(animated)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillShow),
-                                               name: NSNotification.Name.UIKeyboardWillShow,
+                                               name: UIResponder.keyboardWillShowNotification,
                                                object: nil)
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(keyboardWillHide),
-                                               name: NSNotification.Name.UIKeyboardWillHide,
+                                               name: UIResponder.keyboardWillHideNotification,
                                                object: nil)
         textFields?.first?.becomeFirstResponder()
     }
     
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillShow)
-        NotificationCenter.default.removeObserver(NSNotification.Name.UIKeyboardWillHide)
+        NotificationCenter.default.removeObserver(UIResponder.keyboardWillShowNotification)
+        NotificationCenter.default.removeObserver(UIResponder.keyboardWillHideNotification)
     }
 
     private func setupUI() {
@@ -169,15 +169,15 @@ public extension FormViewController {
         animations: ((_ keyboardFrame: CGRect) -> Void)?
     ) {
         // Extract the duration of the keyboard animation
-        let durationKey = UIKeyboardAnimationDurationUserInfoKey
+        let durationKey = UIResponder.keyboardAnimationDurationUserInfoKey
         let duration = notification.userInfo![durationKey] as! Double
         
         // Extract the final frame of the keyboard
-        let frameKey = UIKeyboardFrameEndUserInfoKey
+        let frameKey = UIResponder.keyboardFrameEndUserInfoKey
         let keyboardFrameValue = notification.userInfo![frameKey] as! NSValue
         
         // Extract the curve of the iOS keyboard animation
-        let curveKey = UIKeyboardAnimationCurveUserInfoKey
+        let curveKey = UIResponder.keyboardAnimationCurveUserInfoKey
         let curveValue = notification.userInfo![curveKey] as! Int
         let curve = UIView.AnimationCurve(rawValue: curveValue)!
 
