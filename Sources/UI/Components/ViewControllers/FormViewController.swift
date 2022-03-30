@@ -117,7 +117,6 @@ extension FormViewController {
             let constant = -(20 + keyboardFrame.height)
             self.submitButton?.bottomConstraint?.constant = constant
         }
-//          animateBottomViewWith(offset: -(keyboardRect.height + 20))
     }
 
     @objc open func keyboardWillHide(notification: NSNotification) {
@@ -125,7 +124,6 @@ extension FormViewController {
               (keyboardFrame) in
             self.submitButton?.bottomConstraint?.constant = self.submitButtonBottomSpace ?? 0
           }
-//        animateBottomViewWith(offset: submitButtonBottomSpace ?? 0)
     }
 
     private func animateBottomViewWith(offset: CGFloat) {
@@ -165,7 +163,7 @@ extension FormViewController: TextFieldDelegate {
     }
 }
 
-extension FormViewController {
+public extension FormViewController {
     func animateWithKeyboard(
         notification: NSNotification,
         animations: ((_ keyboardFrame: CGRect) -> Void)?

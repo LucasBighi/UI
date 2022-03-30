@@ -44,7 +44,11 @@ public class Label: UILabel {
                                                                options: [.documentType: NSAttributedString.DocumentType.html,
                                                                          .characterEncoding: String.Encoding.utf8.rawValue],
                                                                documentAttributes: nil)
-            attributedText.addAttribute(.font, value: font, range: NSRange(location: 0, length: attributedText.length))
+            let paragraphStyle = NSMutableParagraphStyle()
+            paragraphStyle.alignment = textAlignment
+            
+            attributedText.addAttributes([.font: font, .paragraphStyle: paragraphStyle],
+                                         range: NSRange(location: 0, length: attributedText.length))
             
             if let bold = html?.slice(from: "<b>", to: "</b>"),
                let fontFamily = font.fontFamily,
