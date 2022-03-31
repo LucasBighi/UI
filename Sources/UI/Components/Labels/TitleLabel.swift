@@ -9,10 +9,11 @@ import UIKit
 
 public class TitleLabel: Label {
 
-    public init(text: String?,
+    public override init(text: String?,
+                font: UIFont = UI.theme.titleFont,
                 textColor: UIColor? = .primaryTextColor,
                 textAlignment: NSTextAlignment = .center) {
-        super.init(text: text, font: UI.theme.titleFont, textColor: textColor, textAlignment: textAlignment)
+        super.init(text: text, font: font, textColor: textColor, textAlignment: textAlignment)
         commonInit(textColor: textColor)
 
     }

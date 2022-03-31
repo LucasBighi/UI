@@ -11,8 +11,9 @@ public class SubtitleLabel: Label {
 
     public init(text: String?,
                 textColor: UIColor? = .secondaryTextColor,
+                font: UIFont = UI.theme.subtitleFont,
                 textAlignment: NSTextAlignment = .center) {
-        super.init(text: text, font: UI.theme.subtitleFont, textColor: textColor, textAlignment: textAlignment)
+        super.init(text: text, font: font, textColor: textColor, textAlignment: textAlignment)
         commonInit(textColor: textColor)
 
     }

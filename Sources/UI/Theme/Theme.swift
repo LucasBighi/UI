@@ -37,7 +37,7 @@ public protocol AppTheme {
 public struct UI {
     private static var settedTheme: AppTheme?
     
-    static var theme: AppTheme {
+    public static var theme: AppTheme {
         guard let settedTheme = settedTheme else { fatalError("Theme not configured") }
         return settedTheme
     }
