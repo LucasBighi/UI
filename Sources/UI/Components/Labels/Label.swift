@@ -21,7 +21,10 @@ public class Label: UILabel {
         self.textAlignment = textAlignment
     }
     
-    public init(html: String, font: UIFont = .primary(.regular, ofSize: 17)) {
+    public init(html: String,
+                font: UIFont = .primary(.regular, ofSize: 16),
+                textColor: UIColor? = .primaryTextColor,
+                textAlignment: NSTextAlignment = .center) {
         super.init(frame: .zero)
         self.font = font
         self.numberOfLines = 0

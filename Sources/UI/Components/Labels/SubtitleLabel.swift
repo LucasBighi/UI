@@ -18,8 +18,11 @@ public class SubtitleLabel: Label {
 
     }
     
-    public init(html: String) {
-        super.init(html: html, font: UI.theme.subtitleFont)
+    public init(html: String,
+                textColor: UIColor? = .secondaryTextColor,
+                font: UIFont = UI.theme.subtitleFont,
+                textAlignment: NSTextAlignment = .center) {
+        super.init(html: html, font: UI.theme.subtitleFont, textColor: textColor, textAlignment: textAlignment)
     }
 
     public required init?(coder: NSCoder) {
