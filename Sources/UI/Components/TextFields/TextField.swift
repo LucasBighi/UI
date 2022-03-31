@@ -36,6 +36,10 @@ public extension TextFieldValidatorDelegate {
         view.layout(|-16.5-label-16.5-|)
         return view
     }
+    
+    func validator(for textField: TextField) -> Bool {
+        return false
+    }
 }
 
 public class TextField: UITextField {
