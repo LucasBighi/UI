@@ -10,24 +10,22 @@ import Stevia
 
 public class HeaderLabel: Label {
 
-    public init(text: String?,
-                textColor: UIColor? = .primaryTextColor,
-                textAlignment: NSTextAlignment = .center) {
-        super.init(text: text, font: UI.theme.headerFont, textColor: textColor, textAlignment: textAlignment)
-        commonInit(textColor: textColor)
+    public override init(text: String?,
+                         font: UIFont = UI.theme.headerFont,
+                         textColor: UIColor? = .primaryTextColor,
+                         textAlignment: NSTextAlignment = .center) {
+        super.init(text: text, font: font, textColor: textColor, textAlignment: textAlignment)
+        
     }
     
-    public init(html: String) {
-        super.init(html: html, font: UI.theme.headerFont)
+    public override init(html: String,
+                         font: UIFont = UI.theme.headerFont,
+                         textColor: UIColor? = .primaryTextColor,
+                         textAlignment: NSTextAlignment = .center) {
+        super.init(html: html, font: font, textColor: textColor, textAlignment: textAlignment)
     }
-
-    public required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        commonInit(textColor: textColor)
-    }
-
-    private func commonInit(textColor: UIColor?) {
-        self.font = UI.theme.headerFont
-        self.textColor = textColor
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

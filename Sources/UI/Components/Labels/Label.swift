@@ -27,6 +27,8 @@ public class Label: UILabel {
                 textAlignment: NSTextAlignment = .center) {
         super.init(frame: .zero)
         self.font = font
+        self.textColor = textColor
+        self.textAlignment = textAlignment
         self.numberOfLines = 0
         setAttributes(with: html, andFont: font)
     }

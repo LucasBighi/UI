@@ -14,28 +14,16 @@ public class TitleLabel: Label {
                          textColor: UIColor? = .primaryTextColor,
                          textAlignment: NSTextAlignment = .center) {
         super.init(text: text, font: font, textColor: textColor, textAlignment: textAlignment)
-        commonInit(textColor: textColor)
-
     }
     
     public override init(html: String,
                          font: UIFont = UI.theme.titleFont,
                          textColor: UIColor? = .primaryTextColor,
                          textAlignment: NSTextAlignment = .center) {
-        super.init(html: html, font: UI.theme.titleFont)
+        super.init(html: html, font: font)
     }
-
-    public required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        commonInit(textColor: .primaryTextColor)
-    }
-
-    private func commonInit(textColor: UIColor?) {
-        func labelStyle(_ l: UILabel) {
-            l.font = UI.theme.titleFont
-            l.textColor = textColor
-        }
-
-        style(labelStyle)
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }
