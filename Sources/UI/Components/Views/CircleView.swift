@@ -7,9 +7,9 @@
 
 import UIKit
 
-class CircleView: UIView {
+public class CircleView: UIView {
     
-    override init(frame: CGRect) {
+    public override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
@@ -17,7 +17,7 @@ class CircleView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    override func draw(_ rect: CGRect) {
+    public override func draw(_ rect: CGRect) {
         super.draw(rect)
         layer.cornerRadius = rect.width / 2
     }
