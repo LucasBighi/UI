@@ -17,7 +17,7 @@ public class CheckButton: Button {
 
     public var isChecked: Bool {
         didSet {
-            setBorder(color: UI.theme.checkButtonBorderColor(where: isChecked), width: 2, cornerRadius: 5)
+            setBorder(color: UI.theme.checkButtonBorderColor(where: isChecked), width: 3, cornerRadius: 5)
             setBackgroundImage(isChecked ? UIImage(inModuleNamed: "check-box") : nil, for: .normal)
             tintColor = UI.theme.checkButtonBackgroundColor(where: isChecked)
             changeValueAction?(isChecked)
@@ -37,7 +37,7 @@ public class CheckButton: Button {
         addTarget(self, action: #selector(didTouch), for: .touchUpInside)
         backgroundColor = .white
         clipsToBounds = true
-        setBorder(color: UI.theme.checkButtonBorderColor(where: isChecked), width: 5, cornerRadius: 5)
+        setBorder(color: UI.theme.checkButtonBorderColor(where: isChecked), width: 3, cornerRadius: 5)
         setBackgroundImage(isChecked ? UIImage(inModuleNamed: "check-box") : nil, for: .normal)
         imageView?.contentMode = .scaleToFill
         tintColor = UI.theme.checkButtonBackgroundColor(where: isChecked)
