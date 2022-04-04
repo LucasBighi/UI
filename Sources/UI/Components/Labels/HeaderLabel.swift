@@ -10,7 +10,7 @@ import Stevia
 
 public class HeaderLabel: Label {
 
-    public override init(text: String?,
+    public override init(text: String? = nil,
                          font: UIFont = UI.theme.headerFont,
                          textColor: UIColor? = .primaryTextColor,
                          textAlignment: NSTextAlignment = .center) {

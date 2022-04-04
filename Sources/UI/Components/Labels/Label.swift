@@ -9,7 +9,7 @@ import UIKit
 
 public class Label: UILabel {
 
-    public init(text: String?,
+    public init(text: String? = nil,
                 font: UIFont = .primary(.regular, ofSize: 16),
                 textColor: UIColor? = .primaryTextColor,
                 textAlignment: NSTextAlignment = .center) {

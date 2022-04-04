@@ -9,7 +9,7 @@ import UIKit
 
 public class TitleLabel: Label {
 
-    public override init(text: String?,
+    public override init(text: String? = nil,
                          font: UIFont = UI.theme.titleFont,
                          textColor: UIColor? = .primaryTextColor,
                          textAlignment: NSTextAlignment = .center) {

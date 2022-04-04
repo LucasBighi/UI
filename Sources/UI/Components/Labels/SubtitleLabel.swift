@@ -9,7 +9,7 @@ import UIKit
 
 public class SubtitleLabel: Label {
     
-    public override init(text: String?,
+    public override init(text: String? = nil,
                          font: UIFont = UI.theme.subtitleFont,
                          textColor: UIColor? = .secondaryTextColor,
                          textAlignment: NSTextAlignment = .center) {
