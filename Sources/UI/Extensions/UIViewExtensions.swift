@@ -16,8 +16,8 @@ public extension UIView {
         clipsToBounds = true
     }
     
-    convenience init(backgroundColor: UIColor) {
-        self.init()
+    convenience init(frame: CGRect = .zero, backgroundColor: UIColor?) {
+        self.init(frame: frame)
         self.backgroundColor = backgroundColor
     }
 }
