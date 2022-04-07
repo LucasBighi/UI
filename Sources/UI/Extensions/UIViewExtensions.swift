@@ -15,4 +15,9 @@ public extension UIView {
         layer.cornerRadius = cornerRadius
         clipsToBounds = true
     }
+    
+    convenience init(backgroundColor: UIColor) {
+        self.init()
+        self.backgroundColor = backgroundColor
+    }
 }
