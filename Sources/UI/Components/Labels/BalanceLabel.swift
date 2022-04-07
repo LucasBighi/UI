@@ -15,7 +15,9 @@ public class BalanceLabel: Label {
     
     public var isMasked: Bool = false {
         didSet {
-            viewToMask.isHidden = isMasked
+            UIView.animate(withDuration: 0.3) {
+                self.viewToMask.alpha = self.isMasked ? 1 : 0
+            }
         }
     }
     
@@ -47,7 +49,7 @@ public class BalanceLabel: Label {
     private func commonInit() {
         viewToMask = UIView(frame: bounds, backgroundColor: maskColor)
         viewToMask.layer.cornerRadius = 10
-        viewToMask.isHidden = isMasked
+        viewToMask.alpha = isMasked ? 1 : 0
         addSubview(viewToMask)
     }
 }
