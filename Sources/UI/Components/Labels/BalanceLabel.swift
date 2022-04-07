@@ -21,13 +21,14 @@ public class BalanceLabel: Label {
     
     public override func layoutSubviews() {
         super.layoutSubviews()
-        print("Sera??")
+        viewToMask.frame = bounds
     }
     
     public override func draw(_ rect: CGRect) {
         super.draw(rect)
         viewToMask = UIView(frame: rect, backgroundColor: maskColor)
         viewToMask.layer.cornerRadius = 10
+        viewToMask.isHidden = isMasked
         addSubview(viewToMask)
     }
 }
