@@ -24,9 +24,28 @@ public class BalanceLabel: Label {
         viewToMask.frame = bounds
     }
     
-    public override func draw(_ rect: CGRect) {
-        super.draw(rect)
-        viewToMask = UIView(frame: rect, backgroundColor: maskColor)
+    public override init(text: String? = nil,
+                         font: UIFont = .primary(.regular, ofSize: 16),
+                         textColor: UIColor? = .primaryTextColor,
+                         textAlignment: NSTextAlignment = .center) {
+        super.init(text: text, font: font, textColor: textColor, textAlignment: textAlignment)
+        commonInit()
+    }
+    
+    public override init(html: String,
+                         font: UIFont = .primary(.regular, ofSize: 16),
+                         textColor: UIColor? = .primaryTextColor,
+                         textAlignment: NSTextAlignment = .center) {
+        super.init(html: html, font: font, textColor: textColor, textAlignment: textAlignment)
+        commonInit()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func commonInit() {
+        viewToMask = UIView(frame: bounds, backgroundColor: maskColor)
         viewToMask.layer.cornerRadius = 10
         viewToMask.isHidden = isMasked
         addSubview(viewToMask)
