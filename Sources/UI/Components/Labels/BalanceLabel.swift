@@ -19,6 +19,11 @@ public class BalanceLabel: Label {
         }
     }
     
+    public override func layoutSubviews() {
+        super.layoutSubviews()
+        print("Sera??")
+    }
+    
     public override func draw(_ rect: CGRect) {
         super.draw(rect)
         viewToMask = UIView(frame: rect, backgroundColor: maskColor)
